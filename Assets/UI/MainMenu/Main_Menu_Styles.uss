@@ -1,0 +1,44 @@
+:root {
+}
+
+.ButtonsMenu {
+    background-color: rgba(144, 2, 2, 0.67);
+    width: 50%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    font-size: 20px;
+    -unity-font-style: bold;
+    margin-bottom: 40px;
+    transition-duration: 0.35s;
+}
+
+.ButtonsMenu:hover {
+    background-color: rgb(113, 0, 0);
+    width: 50%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    font-size: 20px;
+    -unity-font-style: bold;
+    margin-bottom: 40px;
+    scale: 1.1 1.1;
+}

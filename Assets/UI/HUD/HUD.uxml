@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/HUD/HUDStyles.uss?fileID=7433441132597879392&amp;guid=1879d84c9010f9344913d09f8705b2d1&amp;type=3#HUDStyles" />
+    <ui:VisualElement name="MainContainer" style="flex-grow: 1; align-items: center; flex-direction: column;">
+        <ui:VisualElement name="HealthContainer" style="flex-grow: 1; height: 5%; width: 400px; flex-direction: row; align-items: center; justify-content: center; margin-top: 20px; min-width: initial; min-height: initial;">
+            <ui:VisualElement name="HealthBar" style="flex-grow: initial; background-color: rgb(130, 0, 0); width: 400px; height: 80%; margin-top: 20px; margin-bottom: 0; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; max-width: 400px; min-width: 0%;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; height: 95%; width: 100%;" />
+    </ui:VisualElement>
+</ui:UXML>

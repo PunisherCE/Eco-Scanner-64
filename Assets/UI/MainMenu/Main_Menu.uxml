@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainMenu/Main_Menu_Styles.uss?fileID=7433441132597879392&amp;guid=8cb32117542984e4d932744b3b47865c&amp;type=3#Main_Menu_Styles" />
+    <ui:VisualElement name="RootContainer" style="flex-grow: 1; flex-direction: row;">
+        <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; width: 30%; height: 100%; justify-content: center; align-self: center; align-content: center; align-items: center;">
+            <ui:Button text="Start Game" name="StartGame" class="ButtonsMenu" />
+            <ui:Button text="Mini Games" name="MiniGames" class="ButtonsMenu" />
+            <ui:Button text="Configuration" name="Configuration" class="ButtonsMenu" />
+            <ui:Button text="About" name="About" class="ButtonsMenu" />
+        </ui:VisualElement>
+        <ui:VisualElement name="JustAView" style="flex-grow: 1; width: 70%; height: 100%;" />
+    </ui:VisualElement>
+</ui:UXML>
