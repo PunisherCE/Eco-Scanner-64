@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         VisualElement StartGame = root.Q<VisualElement>("StartGame");
         StartGame.RegisterCallback<ClickEvent>(ev => {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Tetris");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("EntrarMundo1");
         });
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
