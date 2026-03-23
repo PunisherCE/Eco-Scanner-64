@@ -12,6 +12,12 @@ public class RobotController : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -9.81f;
     public float attackDuration = 0.5f;
+    public float ballSpeed = 10f;
+    public float fireDelay = 0.35f;
+
+    [Header("References")]
+    public GameObject firePosition;
+    public GameObject fireBall;
 
     private Animator animator;
     private CharacterController characterController;
@@ -25,11 +31,14 @@ public class RobotController : MonoBehaviour
     private bool jumpPressed;
     private bool attackPressed;
     private bool runPressed; // Track if run is held
+    private Transform cameraTransform;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
+        if (Camera.main != null)
+            cameraTransform = Camera.main.transform;
     }
 
     void Update()
@@ -104,11 +113,30 @@ public class RobotController : MonoBehaviour
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false); // Stop run anim during attack
         animator.SetBool("isAttack", true);
+        
+        yield return new WaitForSeconds(fireDelay);
+        FireBall();
 
         yield return new WaitForSeconds(attackDuration);
 
         animator.SetBool("isAttack", false);
         busy = false;
+    }
+
+    private void FireBall()
+    {
+        Quaternion fireRotation = transform.rotation;
+        if (cameraTransform != null)
+        {
+            fireRotation = cameraTransform.rotation;
+        }
+        GameObject ball = Instantiate(fireBall, firePosition.transform.position, fireRotation);
+        
+        FireBall ballScript = ball.GetComponent<FireBall>();
+        if (ballScript != null)
+        {
+            ballScript.speed = ballSpeed;
+        }
     }
 
     #region Input System Callbacks

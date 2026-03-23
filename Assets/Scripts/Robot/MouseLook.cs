@@ -8,7 +8,7 @@ public class MouseLook : MonoBehaviour
     public float minVerticalAngle = -85f; 
     public float maxVerticalAngle = 85f;
     public float distance = 4.0f;
-    public Vector3 pivotOffset = new Vector3(0, 1.5f, 0);
+    public Vector3 pivotOffset = new Vector3(0, 1f, 0);
 
     [Header("References")]
     public Transform playerBody;     // The Robot
