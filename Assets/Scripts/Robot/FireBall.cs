@@ -3,6 +3,7 @@ using UnityEngine;
 public class FireBall : MonoBehaviour
 {
     public float speed;
+    public int damage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +21,11 @@ public class FireBall : MonoBehaviour
     {
         if (other.gameObject.tag != "Player")
         {
-            Destroy(gameObject, 0.1f);
+            if (other.gameObject.tag == "Enemy")
+            {
+                other.gameObject.GetComponent<ZombieAI>().TakeDamage(damage);
+            }
+            Destroy(gameObject);
         }
     }
 }

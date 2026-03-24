@@ -62,6 +62,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3460343988847900088}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5122199171638272145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8159620722706337334}
+  - component: {fileID: 4360834963166702434}
+  m_Layer: 5
+  m_Name: HUD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8159620722706337334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122199171638272145}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.5428689, y: 0, z: -0.1274778}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9105379038132684634}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4360834963166702434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122199171638272145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: b050c3fae814bd347b0a92c9d6525d9c, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 201c0014569c4854cbcd7a66e2e0d077, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
 --- !u!1 &9125347107568113292
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,15 +284,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: df8e86716d586a24a8a3cb4e76d5b900, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.114917725
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: df8e86716d586a24a8a3cb4e76d5b900, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.000000018759025
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: df8e86716d586a24a8a3cb4e76d5b900, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.01470054
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: df8e86716d586a24a8a3cb4e76d5b900, type: 3}
       propertyPath: m_LocalRotation.w
@@ -284,6 +339,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: df8e86716d586a24a8a3cb4e76d5b900, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7960424941288168164}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: df8e86716d586a24a8a3cb4e76d5b900, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8159620722706337334}
     - targetCorrespondingSourceObject: {fileID: 5319850695048647945, guid: df8e86716d586a24a8a3cb4e76d5b900, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7557129396757708753}
@@ -377,17 +435,21 @@ MonoBehaviour:
   attackDuration: 0.5
   ballSpeed: 10
   fireDelay: 0.3
+  ballDamage: 1
   secondaryAttackDuration: 8
   minDistanceMeteor: 10
   maxDistanceMeteor: 400
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  maxHitPoints: 10
+  currentHitPoints: 10
   firePosition: {fileID: 3794464737161460701}
   fireBall: {fileID: 2680830935764052329, guid: d05fab8af9b010c4c83b4dbfd9f04242, type: 3}
   fireZone: {fileID: 9223104410388116829, guid: e364afa9de0cf334698d6ecd393d67d7, type: 3}
-  meteorFire: {fileID: 2656560583193923727, guid: 202a7194686628b459b7b166395aca98, type: 3}
+  meteorFire: {fileID: 2656560583193923727, guid: 6666c6a4384cb8e4dbb70bec4f2dadde, type: 3}
   fireZonePosition: {fileID: 1464600028799495629}
+  document: {fileID: 4360834963166702434}
 --- !u!114 &619296448186590296
 MonoBehaviour:
   m_ObjectHideFlags: 0

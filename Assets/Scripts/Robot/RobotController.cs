@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -14,10 +17,14 @@ public class RobotController : MonoBehaviour
     public float attackDuration = 0.5f;
     public float ballSpeed = 10f;
     public float fireDelay = 0.35f;
+    public int ballDamage = 1;
     public float secondaryAttackDuration = 8.5f;
     public float minDistanceMeteor = 10f;
     public float maxDistanceMeteor = 400f;
     public LayerMask aimLayerMask = ~0;
+    public int maxHitPoints = 10;
+    public int currentHitPoints = 10;
+
 
     [Header("References")]
     public GameObject firePosition;
@@ -25,9 +32,13 @@ public class RobotController : MonoBehaviour
     public GameObject fireZone;
     public GameObject meteorFire;
     public GameObject fireZonePosition;
+    public UIDocument document;
 
     private Animator animator;
     private CharacterController characterController;
+
+    private VisualElement healthBar;
+    private VisualElement energyBar;
 
     private Vector3 velocity;
     private bool isGrounded;
@@ -46,6 +57,11 @@ public class RobotController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         if (Camera.main != null)
             cameraTransform = Camera.main.transform;
+
+        VisualElement root = document.rootVisualElement;
+        healthBar = root.Q<VisualElement>("HealthBar");
+        energyBar = root.Q<VisualElement>("EnergyBar");
+
     }
 
     void Update()
@@ -89,10 +105,17 @@ public class RobotController : MonoBehaviour
         characterController.Move(move * currentSpeed * Time.deltaTime);
 
         // --- Animator Updates ---
-        // isWalk is true if moving at all
-        animator.SetBool("isWalk", isMoving);
-        // isRun is only true if moving AND holding run
-        animator.SetBool("isRun", isRunning);
+        // --- Animator Updates ---
+        if (isRunning)
+        {
+            animator.SetBool("isRun", true);
+            animator.SetBool("isWalk", false); // Turn off walk while running
+        }
+        else
+        {
+            animator.SetBool("isRun", false);
+            animator.SetBool("isWalk", isMoving); // Only walk if moving and NOT running
+        }
         animator.SetBool("isJump", !isGrounded);
 
         // --- Jumping ---
@@ -116,6 +139,7 @@ public class RobotController : MonoBehaviour
 
     IEnumerator PerformAttack()
     {
+        if (busy) yield break;
         busy = true;
         animator.SetBool("isWalk", false);
         animator.SetBool("isRun", false); // Stop run anim during attack
@@ -143,6 +167,7 @@ public class RobotController : MonoBehaviour
         if (ballScript != null)
         {
             ballScript.speed = ballSpeed;
+            ballScript.damage = ballDamage;
         }
     }
 
@@ -160,8 +185,8 @@ public class RobotController : MonoBehaviour
         {
             if (hit.distance < minDistanceMeteor)
             {
-                yield return new WaitForSeconds(0.1f);
                 busy = false;
+                yield break;
             }
             else
             {
@@ -192,6 +217,35 @@ public class RobotController : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             busy = false;
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        animator.SetBool("isDamage", true);
+        currentHitPoints -= damage;
+        float healthPercentage = (float)currentHitPoints / (float)maxHitPoints;
+        healthPercentage *= 100;
+        healthBar.style.width = new Length(healthPercentage, LengthUnit.Percent);
+
+        if (currentHitPoints <= 0)
+        {
+            busy = true;
+            animator.SetBool("isDamage", false);
+            Die();
+        } else StartCoroutine(ResetDamageAnimation());
+    }
+
+    private IEnumerator ResetDamageAnimation()
+    {
+        yield return new WaitForSeconds(0.15f);
+        animator.SetBool("isDamage", false);
+    }
+
+    private void Die()
+    {
+        animator.SetBool("isDead", true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // Implement game over
     }
 
     #region Input System Callbacks
