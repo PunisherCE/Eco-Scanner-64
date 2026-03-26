@@ -446,6 +446,7 @@ MonoBehaviour:
   currentHitPoints: 10
   firePosition: {fileID: 3794464737161460701}
   fireBall: {fileID: 2680830935764052329, guid: d05fab8af9b010c4c83b4dbfd9f04242, type: 3}
+  particleBall: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
   fireZone: {fileID: 9223104410388116829, guid: e364afa9de0cf334698d6ecd393d67d7, type: 3}
   meteorFire: {fileID: 2656560583193923727, guid: 6666c6a4384cb8e4dbb70bec4f2dadde, type: 3}
   fireZonePosition: {fileID: 1464600028799495629}

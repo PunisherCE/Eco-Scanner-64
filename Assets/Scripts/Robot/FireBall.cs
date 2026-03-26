@@ -4,6 +4,7 @@ public class FireBall : MonoBehaviour
 {
     public float speed;
     public int damage;
+    public GameObject particleEffect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +22,9 @@ public class FireBall : MonoBehaviour
     {
         if (other.gameObject.tag != "Player")
         {
+            GameObject particle = Instantiate(particleEffect, transform.position, Quaternion.identity);
+            Destroy(particle, 1f);
+
             if (other.gameObject.tag == "Enemy")
             {
                 other.gameObject.GetComponent<ZombieAI>().TakeDamage(damage);

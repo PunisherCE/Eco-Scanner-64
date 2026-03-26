@@ -29,6 +29,7 @@ public class RobotController : MonoBehaviour
     [Header("References")]
     public GameObject firePosition;
     public GameObject fireBall;
+    public GameObject particleBall;
     public GameObject fireZone;
     public GameObject meteorFire;
     public GameObject fireZonePosition;
@@ -147,6 +148,8 @@ public class RobotController : MonoBehaviour
 
         yield return new WaitForSeconds(fireDelay);
         FireBall();
+        GameObject particle = Instantiate(particleBall, firePosition.transform.position, Quaternion.identity);
+        Destroy(particle, 1f);
 
         yield return new WaitForSeconds(attackDuration);
 

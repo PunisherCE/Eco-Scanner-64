@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireBall
   speed: 10
+  damage: 0
+  particleEffect: {fileID: 8443315704496310910, guid: 6ef35fa36e3a65043b2d800600204bdd, type: 3}
 --- !u!82 &3545138137067867092
 AudioSource:
   m_ObjectHideFlags: 0
