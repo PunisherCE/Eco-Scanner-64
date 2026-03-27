@@ -29401,6 +29401,7 @@ GameObject:
   - component: {fileID: 1092875362680174751}
   - component: {fileID: 3562347210548120764}
   - component: {fileID: 5063957295795102980}
+  - component: {fileID: 7209168218251998841}
   m_Layer: 8
   m_Name: Hurricane_spaceship_SRP_N01_01
   m_TagString: Player
@@ -29460,7 +29461,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &3562347210548120764
 MonoBehaviour:
@@ -29483,6 +29484,10 @@ MonoBehaviour:
   missilePrefab: {fileID: 4546223944443758364, guid: 727343c213b9634419f9f4935923c04e, type: 3}
   firePoint: {fileID: 4322834063076366210}
   missileAmmo: 10
+  explosionPrefab:
+  - {fileID: 1007127540951276732, guid: 3ace37360f306cb4aac03640550fa9ef, type: 3}
+  - {fileID: 1620140131458704099, guid: 57e5b83dfee152a47aedf7d83c83e9f5, type: 3}
+  - {fileID: 560014183069458990, guid: 621e45f610d611746802ad828f66b094, type: 3}
 --- !u!114 &5063957295795102980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29605,6 +29610,27 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!65 &7209168218251998841
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4578425261336509156}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.18622987, z: 1}
+  m_Center: {x: 0, y: 0.11029141, z: 0}
 --- !u!1 &4578425262076024383
 GameObject:
   m_ObjectHideFlags: 0

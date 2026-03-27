@@ -6,6 +6,8 @@ public class Projectile : MonoBehaviour
     private int damage;
     private float speed;
     public float lifetime = 3f;
+    public GameObject[] explosionsEffect = new GameObject[3];
+
 
     void Start()
     {
@@ -33,6 +35,9 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            int explosionIndex = Random.Range(0, explosionsEffect.Length);
+            Instantiate(explosionsEffect[explosionIndex], other.transform.position, Quaternion.identity);
+            Destroy(other.gameObject);
             Debug.Log($"Hit {other.name}!");
             // You can add logic here to damage the enemy script
             Destroy(gameObject);

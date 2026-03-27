@@ -15,6 +15,7 @@ public class ShipController : MonoBehaviour
     public GameObject missilePrefab;
     public Transform firePoint;
     public int missileAmmo = 10;
+    public GameObject[] explosionPrefab = new GameObject[3];
 
     private Vector2 moveInput;
     private Rigidbody rb;
@@ -79,4 +80,26 @@ public class ShipController : MonoBehaviour
 
         transform.position = newPos;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the object we hit has the "Enemy" tag
+        if (other.CompareTag("Enemy"))
+        {
+            // 1. (Optional) Instantiate an explosion effect here
+            // Instantiate(explosionPrefab, transform.position, transform.rotation);
+            int explosionIndex = Random.Range(0, explosionPrefab.Length);
+            Instantiate(explosionPrefab[explosionIndex], transform.position, transform.rotation);
+            EnemySpawner.PlayerDies();
+            // 2. Destroy this ship
+            Destroy(gameObject);
+
+            // 3. (Optional) If the enemy should also die, uncomment below:
+            // Destroy(other.gameObject);
+            
+            Debug.Log("Ship crashed into " + other.name);
+        }
+    }
+
+    
 }

@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   isMissile: 1
   lifetime: 4
+  explosionsEffect:
+  - {fileID: 1007127540951276732, guid: 3ace37360f306cb4aac03640550fa9ef, type: 3}
+  - {fileID: 1620140131458704099, guid: 57e5b83dfee152a47aedf7d83c83e9f5, type: 3}
+  - {fileID: 560014183069458990, guid: 621e45f610d611746802ad828f66b094, type: 3}
 --- !u!136 &4583023717220357557
 CapsuleCollider:
   m_ObjectHideFlags: 0
