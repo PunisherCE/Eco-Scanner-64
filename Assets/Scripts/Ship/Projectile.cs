@@ -3,8 +3,8 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public bool isMissile;
-    private int damage;
-    private float speed;
+    //private int damage;
+    private float speed = 40;
     public float lifetime = 3f;
     public GameObject[] explosionsEffect = new GameObject[3];
 
@@ -12,16 +12,6 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, lifetime);
-        if (isMissile)
-        {
-            speed = 20;
-            damage = 5;
-        }
-        else
-        {
-            speed = 35;
-            damage = 1;
-        }
     }
 
     void Update()

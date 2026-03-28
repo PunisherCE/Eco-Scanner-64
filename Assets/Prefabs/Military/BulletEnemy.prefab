@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4370039146549946156}
   - component: {fileID: 4740892956402003546}
   - component: {fileID: -5057551228449955496}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BulletEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,3 +126,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullets
   speed: 25
+  visualEffect: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}

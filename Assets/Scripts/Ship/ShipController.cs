@@ -4,10 +4,10 @@ using UnityEngine.InputSystem;
 public class ShipController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 10f;
+    public float moveSpeed = 20f;
     public ConstantScrollCamera cameraScript; // Reference the script to get its speed
     public Transform cameraTransform;
-    public float xBound = 8f; 
+    public float xBound = 8f;
     public float yBound = 4.5f;
 
     [Header("Combat Settings")]
@@ -17,6 +17,9 @@ public class ShipController : MonoBehaviour
     public int missileAmmo = 10;
     public GameObject[] explosionPrefab = new GameObject[3];
 
+    [Header("Stats")]
+    public int health = 5;
+
     private Vector2 moveInput;
     private Rigidbody rb;
 
@@ -24,7 +27,7 @@ public class ShipController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-        
+
         // Safety: If you forgot to assign cameraTransform, use Main Camera
         if (cameraTransform == null) cameraTransform = Camera.main.transform;
         if (cameraScript == null) cameraScript = cameraTransform.GetComponent<ConstantScrollCamera>();
@@ -45,8 +48,36 @@ public class ShipController : MonoBehaviour
     {
         if (context.started && missileAmmo > 0)
         {
-            Instantiate(missilePrefab, firePoint.position, firePoint.rotation);
-            missileAmmo--;
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Camera cam = cameraTransform.GetComponent<Camera>();
+
+            Ray ray = cam.ScreenPointToRay(mousePosition);
+
+            // Since ship is at Z=90, the plane must be at Z=90.
+            // We use Vector3.back if the camera is at Z < 90.
+            Vector3 planeNormal = (cam.transform.position.z < transform.position.z) ? Vector3.back : Vector3.forward;
+            Plane targetPlane = new Plane(planeNormal, new Vector3(0, 0, 90f));
+
+            if (targetPlane.Raycast(ray, out float distance))
+            {
+                Vector3 worldTarget = ray.GetPoint(distance);
+
+                // Condition: Target X must be less than Ship X
+                if (worldTarget.x < transform.position.x)
+                {
+                    // Instantiate using the ship's current rotation (which is -90 Y)
+                    // or Quaternion.identity; the Missile script will fix it anyway.
+                    GameObject missileGo = Instantiate(missilePrefab, firePoint.position, transform.rotation);
+                    Missile missileScript = missileGo.GetComponent<Missile>();
+
+                    if (missileScript != null)
+                    {
+                        missileScript.SetTarget(worldTarget);
+                    }
+
+                    missileAmmo--;
+                }
+            }
         }
     }
 
@@ -90,16 +121,28 @@ public class ShipController : MonoBehaviour
             // Instantiate(explosionPrefab, transform.position, transform.rotation);
             int explosionIndex = Random.Range(0, explosionPrefab.Length);
             Instantiate(explosionPrefab[explosionIndex], transform.position, transform.rotation);
+            explosionIndex = Random.Range(0, explosionPrefab.Length);
+            Instantiate(explosionPrefab[explosionIndex], other.transform.position, transform.rotation);
             EnemySpawner.PlayerDies();
             // 2. Destroy this ship
-            Destroy(gameObject);
-
-            // 3. (Optional) If the enemy should also die, uncomment below:
-            // Destroy(other.gameObject);
-            
             Debug.Log("Ship crashed into " + other.name);
+            Destroy(other.gameObject);
+            Destroy(gameObject);
         }
     }
 
-    
+    public void TakeDamage(int amount)
+    {
+        health -= amount;
+        Debug.Log("Health: " + health);
+        if (health <= 0) Die();
+    }
+
+    private void Die()
+    {
+        int explosionIndex = Random.Range(0, explosionPrefab.Length);
+        Instantiate(explosionPrefab[explosionIndex], transform.position, transform.rotation);
+        EnemySpawner.PlayerDies();
+        Destroy(gameObject);
+    }
 }

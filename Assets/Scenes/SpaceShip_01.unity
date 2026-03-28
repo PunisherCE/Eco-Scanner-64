@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConstantScrollCamera
   scrollSpeed: 4
+  isDead: 0
 --- !u!114 &404592332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +567,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3562347210548120764, guid: c998b9ca5b879cf418bfddfe2bea25c2, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3562347210548120764, guid: c998b9ca5b879cf418bfddfe2bea25c2, type: 3}
       propertyPath: cameraTransform
       value: 
