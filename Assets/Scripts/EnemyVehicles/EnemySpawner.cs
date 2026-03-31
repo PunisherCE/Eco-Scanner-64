@@ -12,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     [Header("Settings")]
     public float spawnInterval = 2.0f;
     private Camera mainCam;
+    private int enemyCount = 0;
+
 
     public static EnemySpawner Instance { get; private set; }
 
@@ -48,6 +50,12 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnRandomEnemy()
     {
+        enemyCount++;
+        if (enemyCount % 10 == 0)
+        {
+            spawnInterval -= 0.1f;
+            if (spawnInterval < 1f) spawnInterval = 1f;
+        }
         int choice = Random.Range(0, 3);
         // Position: Camera X - 10, Z = 90
         float spawnX = mainCam.transform.position.x - 13f;
@@ -69,6 +77,13 @@ public class EnemySpawner : MonoBehaviour
             case 2: // AH64
                 spawnY = 5f;
                 spawnedEnemy = Instantiate(ah64Prefab, new Vector3(spawnX, spawnY, spawnZ), Quaternion.Euler(0, 90, 0));
+                AH64 ah64 = spawnedEnemy.GetComponent<AH64>();
+                if (ah64 != null)
+                {
+                    // Returns -1 if 0, and 1 if 1
+                    int dir = (Random.Range(0, 2) == 0) ? -1 : 1;
+                    ah64.directionY = dir;
+                }
                 break;
         }
     }

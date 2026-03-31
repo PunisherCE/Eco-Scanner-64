@@ -7,10 +7,13 @@ public class Projectile : MonoBehaviour
     private float speed = 40;
     public float lifetime = 3f;
     public GameObject[] explosionsEffect = new GameObject[3];
-
+    private GameObject ship;
+    private ShipController shipController;
 
     void Start()
     {
+        ship = GameObject.FindWithTag("Player");
+        shipController = ship.GetComponent<ShipController>();
         Destroy(gameObject, lifetime);
     }
 
@@ -28,6 +31,7 @@ public class Projectile : MonoBehaviour
             int explosionIndex = Random.Range(0, explosionsEffect.Length);
             Instantiate(explosionsEffect[explosionIndex], other.transform.position, Quaternion.identity);
             Destroy(other.gameObject);
+            shipController.KillIncrement();
             Debug.Log($"Hit {other.name}!");
             // You can add logic here to damage the enemy script
             Destroy(gameObject);

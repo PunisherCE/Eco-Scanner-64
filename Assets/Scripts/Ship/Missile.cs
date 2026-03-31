@@ -7,9 +7,14 @@ public class Missile : MonoBehaviour
     
     private Vector3 _moveDirection;
     private bool _isInitialized = false;
+    public GameObject[] explosionsEffect = new GameObject[3];
+    private GameObject ship;
+    private ShipController shipController;
 
     void Start()
     {
+        ship = GameObject.FindWithTag("Player");
+        shipController = ship.GetComponent<ShipController>();
         Destroy(gameObject, lifeSpan);
     }
 
@@ -38,5 +43,19 @@ public class Missile : MonoBehaviour
 
         // Move the missile forward in world space
         transform.position += _moveDirection * speed * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            int explosionIndex = Random.Range(0, explosionsEffect.Length);
+            Instantiate(explosionsEffect[explosionIndex], other.transform.position, Quaternion.identity);
+            Destroy(other.gameObject);
+            shipController.KillIncrement();
+            Debug.Log($"Hit {other.name}!");
+            // You can add logic here to damage the enemy script
+            Destroy(gameObject);
+        }
     }
 }

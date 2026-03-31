@@ -8,7 +8,7 @@ public class AH64 : MonoBehaviour
     public GameObject shootPoint;
     public float shootInterval = 1.2f;
 
-    private int directionY = 1; // 1 for up, -1 for down
+    public int directionY = 1; // 1 for up, -1 for down
 
     void Start()
     {

@@ -1,0 +1,17 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Root" style="flex-grow: 1;">
+        <ui:VisualElement name="Elements" style="flex-grow: 1; height: 10%; justify-content: center; align-self: center; align-items: center; width: 100%; flex-direction: row;">
+            <ui:VisualElement name="Health" style="flex-grow: 1; justify-content: space-around; height: 100%; padding-right: 50px; padding-left: 50px; max-width: 33%;">
+                <ui:VisualElement name="HealthBar" style="flex-grow: 1; width: 100%; height: 50%; background-color: rgb(255, 0, 0); max-height: 50%; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; align-self: flex-start;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Missiles" style="flex-grow: 1; height: 100%; flex-direction: row; max-width: 33%;">
+                <ui:VisualElement name="MissileIMG" style="flex-grow: 1; width: 25%; height: 100%;"/>
+                <ui:Label text="Ammo: 10" name="MissileCount" style="width: 75%; -unity-text-align: middle-center; font-size: 50px; -unity-font-style: bold-and-italic; height: 100%;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Kills" style="flex-grow: 1; height: 100%; max-width: 33%;">
+                <ui:Label text="Kills: 0" name="KillCount" style="font-size: 50px; -unity-font-style: bold-and-italic; -unity-text-align: middle-center; height: 100%;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Void" style="flex-grow: 1; height: 90%;"/>
+    </ui:VisualElement>
+</ui:UXML>

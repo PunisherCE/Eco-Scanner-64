@@ -1,5 +1,7 @@
+using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class ShipController : MonoBehaviour
 {
@@ -18,7 +20,17 @@ public class ShipController : MonoBehaviour
     public GameObject[] explosionPrefab = new GameObject[3];
 
     [Header("Stats")]
-    public int health = 5;
+    public int maxHealth = 6;
+    private int health;
+    private int Kills = 0;
+
+
+    [Header("UI")]
+    public UIDocument document;
+    private VisualElement healthBar;
+    private TextElement missileCount;
+    private TextElement killCount;
+
 
     private Vector2 moveInput;
     private Rigidbody rb;
@@ -31,6 +43,16 @@ public class ShipController : MonoBehaviour
         // Safety: If you forgot to assign cameraTransform, use Main Camera
         if (cameraTransform == null) cameraTransform = Camera.main.transform;
         if (cameraScript == null) cameraScript = cameraTransform.GetComponent<ConstantScrollCamera>();
+    }
+
+    public void Start()
+    {
+        health = maxHealth;
+
+        VisualElement root = document.rootVisualElement;
+        healthBar = root.Q<VisualElement>("HealthBar");
+        missileCount = root.Q<TextElement>("MissileCount");
+        killCount = root.Q<TextElement>("KillCount");
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -76,6 +98,7 @@ public class ShipController : MonoBehaviour
                     }
 
                     missileAmmo--;
+                    missileCount.text = "Ammo: " + missileAmmo.ToString();
                 }
             }
         }
@@ -135,14 +158,25 @@ public class ShipController : MonoBehaviour
     {
         health -= amount;
         Debug.Log("Health: " + health);
+        float healthPercentage = (float)this.health / (float)maxHealth;
+        healthPercentage *= 100;
+        healthBar.style.width = new Length(healthPercentage, LengthUnit.Percent);
+
         if (health <= 0) Die();
     }
 
     private void Die()
     {
+        healthBar.style.width = new Length(0, LengthUnit.Percent);
         int explosionIndex = Random.Range(0, explosionPrefab.Length);
         Instantiate(explosionPrefab[explosionIndex], transform.position, transform.rotation);
         EnemySpawner.PlayerDies();
         Destroy(gameObject);
+    }
+
+    public void KillIncrement()
+    {
+        Kills++;
+        killCount.text = "Kills: " + Kills.ToString();
     }
 }
