@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 404592328}
   - component: {fileID: 404592332}
   - component: {fileID: 404592331}
+  - component: {fileID: 404592333}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -320,6 +321,20 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &404592333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404592327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0cbd05b651101f46899dd34cf63a123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CursorManager
+  crosshairTexture: {fileID: 2800000, guid: 666f45a1953efde4aacb8867e4d0d8f5, type: 3}
+  hotspot: {x: 32, y: 32}
 --- !u!1 &449154729
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +700,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 404592330}
+  - {fileID: 230452739}
   - {fileID: 1521393762}
   - {fileID: 630904508}
   - {fileID: 3450380680767216415}
-  - {fileID: 230452739}

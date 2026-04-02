@@ -63,7 +63,35 @@ public class ShipController : MonoBehaviour
     public void OnFire(InputAction.CallbackContext context)
     {
         if (context.started)
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        {
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Camera cam = cameraTransform.GetComponent<Camera>();
+            Ray ray = cam.ScreenPointToRay(mousePosition);
+
+            // Define the gameplay plane at Z=90
+            Vector3 planeNormal = (cam.transform.position.z < 90f) ? Vector3.back : Vector3.forward;
+            Plane targetPlane = new Plane(planeNormal, new Vector3(0, 0, 90f));
+
+            if (targetPlane.Raycast(ray, out float distance))
+            {
+                Vector3 worldTarget = ray.GetPoint(distance);
+                worldTarget.z = 90f;
+
+                // Only allow firing if mouse is ahead of the ship (X is lower)
+                if (worldTarget.x < transform.position.x)
+                {
+                    Vector3 direction = (worldTarget - firePoint.position);
+                    direction.z = 0;
+                    direction.Normalize();
+
+                    // Clamp bullet direction to 15 degrees relative to Vector3.left
+                    direction = Vector3.RotateTowards(Vector3.left, direction, 7.5f * Mathf.Deg2Rad, 0f);
+
+                    Quaternion bulletRotation = Quaternion.LookRotation(direction);
+                    Instantiate(bulletPrefab, firePoint.position, bulletRotation);
+                }
+            }
+        }
     }
 
     public void OnMissile(InputAction.CallbackContext context)
@@ -75,30 +103,39 @@ public class ShipController : MonoBehaviour
 
             Ray ray = cam.ScreenPointToRay(mousePosition);
 
-            // Since ship is at Z=90, the plane must be at Z=90.
-            // We use Vector3.back if the camera is at Z < 90.
-            Vector3 planeNormal = (cam.transform.position.z < transform.position.z) ? Vector3.back : Vector3.forward;
+            // 1. Define the gameplay plane at Z=90
+            Vector3 planeNormal = (cam.transform.position.z < 90f) ? Vector3.back : Vector3.forward;
             Plane targetPlane = new Plane(planeNormal, new Vector3(0, 0, 90f));
 
             if (targetPlane.Raycast(ray, out float distance))
             {
+                // 2. Get the hit point and ensure it is strictly at Z=90
                 Vector3 worldTarget = ray.GetPoint(distance);
+                worldTarget.z = 90f;
 
-                // Condition: Target X must be less than Ship X
+                // Only allow missiles if mouse is ahead of the ship (X is lower)
                 if (worldTarget.x < transform.position.x)
                 {
-                    // Instantiate using the ship's current rotation (which is -90 Y)
-                    // or Quaternion.identity; the Missile script will fix it anyway.
-                    GameObject missileGo = Instantiate(missilePrefab, firePoint.position, transform.rotation);
-                    Missile missileScript = missileGo.GetComponent<Missile>();
+                    Vector3 direction = (worldTarget - firePoint.position);
+                    direction.z = 0;
+                    direction.Normalize();
 
-                    if (missileScript != null)
+                    // Only fire if the click is within the 45 degree cone
+                    if (Vector3.Angle(Vector3.left, direction) <= 45f)
                     {
-                        missileScript.SetTarget(worldTarget);
-                    }
+                        Quaternion missileRotation = Quaternion.LookRotation(direction);
 
-                    missileAmmo--;
-                    missileCount.text = "Ammo: " + missileAmmo.ToString();
+                        GameObject missileGo = Instantiate(missilePrefab, firePoint.position, missileRotation);
+                        Missile missileScript = missileGo.GetComponent<Missile>();
+
+                        if (missileScript != null)
+                        {
+                            missileScript.SetTarget(worldTarget);
+                        }
+
+                        missileAmmo--;
+                        missileCount.text = "Ammo: " + missileAmmo.ToString();
+                    }
                 }
             }
         }

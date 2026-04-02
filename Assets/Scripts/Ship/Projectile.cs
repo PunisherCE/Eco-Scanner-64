@@ -19,9 +19,8 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        // Moves the projectile forward relative to its own rotation
-        // If your ship faces Negative X, make sure the prefab's forward faces that way
-        transform.Translate(Vector3.back * -speed * Time.deltaTime);
+        // Move the projectile forward relative to its current rotation
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)

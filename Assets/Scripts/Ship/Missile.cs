@@ -5,7 +5,6 @@ public class Missile : MonoBehaviour
     public float speed = 30f;
     public float lifeSpan = 5f;
     
-    private Vector3 _moveDirection;
     private bool _isInitialized = false;
     public GameObject[] explosionsEffect = new GameObject[3];
     private GameObject ship;
@@ -21,16 +20,12 @@ public class Missile : MonoBehaviour
     public void SetTarget(Vector3 targetPos)
     {
         // Direction from the firePoint (Z=90) to the Click (Z=90)
-        Vector3 diff = targetPos - transform.position;
-        
-        // We do NOT zero out Z. Even if it's 0, let the normalized vector 
-        // handle the math to maintain the angle.
-        _moveDirection = diff.normalized;
+        Vector3 direction = (targetPos - transform.position).normalized;
 
-        if (_moveDirection != Vector3.zero)
+        if (direction != Vector3.zero)
         {
-            // This aligns the missile's local Forward (Blue axis) with the direction
-            transform.rotation = Quaternion.LookRotation(_moveDirection);
+            // Align the missile's local Forward (Blue axis) with the direction
+            transform.rotation = Quaternion.LookRotation(direction);
         }
 
         Debug.DrawLine(transform.position, targetPos, Color.red, 3f);
@@ -41,8 +36,8 @@ public class Missile : MonoBehaviour
     {
         if (!_isInitialized) return;
 
-        // Move the missile forward in world space
-        transform.position += _moveDirection * speed * Time.deltaTime;
+        // Move the missile forward relative to its current rotation
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
