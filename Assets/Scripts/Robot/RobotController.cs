@@ -17,6 +17,7 @@ public class RobotController : MonoBehaviour
     public float attackDuration = 0.5f;
     public float ballSpeed = 10f;
     public float fireDelay = 0.35f;
+    public float fireBallRaycastDistance = 100f;
     public int ballDamage = 1;
     public float secondaryAttackDuration = 8.5f;
     public float minDistanceMeteor = 10f;
@@ -106,7 +107,6 @@ public class RobotController : MonoBehaviour
         characterController.Move(move * currentSpeed * Time.deltaTime);
 
         // --- Animator Updates ---
-        // --- Animator Updates ---
         if (isRunning)
         {
             animator.SetBool("isRun", true);
@@ -159,18 +159,35 @@ public class RobotController : MonoBehaviour
 
     private void FireBall()
     {
-        Quaternion fireRotation = transform.rotation;
+        Vector3 targetPoint;
+
         if (cameraTransform != null)
         {
-            fireRotation = cameraTransform.rotation;
+            // Raycast from the center of the camera forward
+            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, fireBallRaycastDistance, aimLayerMask))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                // If no object is hit, aim at a point in the distance
+                targetPoint = cameraTransform.position + cameraTransform.forward * fireBallRaycastDistance;
+            }
         }
-        GameObject ball = Instantiate(fireBall, firePosition.transform.position, fireRotation);
+        else
+        {
+            targetPoint = firePosition.transform.position + transform.forward * fireBallRaycastDistance;
+        }
+
+        GameObject ball = Instantiate(fireBall, firePosition.transform.position, Quaternion.identity);
 
         FireBall ballScript = ball.GetComponent<FireBall>();
         if (ballScript != null)
         {
             ballScript.speed = ballSpeed;
             ballScript.damage = ballDamage;
+            ballScript.SetTarget(targetPoint);
         }
     }
 

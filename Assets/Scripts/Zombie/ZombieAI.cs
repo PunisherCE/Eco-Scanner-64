@@ -12,6 +12,7 @@ public class ZombieAI : MonoBehaviour
     public int maxHitPoints = 3;
     public int currentHitPoints = 3;
     public int damage = 1;
+    public float provokedTimerMax = 6.5f;
 
     private Animator animator;
     private Transform player;
@@ -20,6 +21,8 @@ public class ZombieAI : MonoBehaviour
     private bool isDead = false;
     private bool isTakingDamage = false;
     private bool isAttacking = false;
+    private bool isProvoked = false;
+    private float provokeTimer;
 
     void Start()
     {
@@ -27,6 +30,7 @@ public class ZombieAI : MonoBehaviour
         currentHitPoints = maxHitPoints; // Ensure they start with full health
         playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) player = playerObj.transform;
+        provokeTimer = provokedTimerMax;
     }
 
     void Update()
@@ -45,7 +49,24 @@ public class ZombieAI : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance <= detectionRadius)
+        if (isProvoked)
+        {
+            provokeTimer -= Time.deltaTime;
+        } else provokeTimer = provokedTimerMax;
+
+        if (provokeTimer <= 0)
+        {
+            isProvoked = false;
+        }
+
+        // If provoked by taking damage, reset provocation once we are well within normal detection range
+        if (isProvoked && distance <= detectionRadius - 2f)
+        {
+            isProvoked = false;
+        }
+
+        // Follow the player if they are within range OR if the zombie is currently provoked
+        if (distance <= detectionRadius || isProvoked)
         {
             // Rotate to face player
             Vector3 direction = (player.position - transform.position).normalized;
@@ -85,6 +106,7 @@ public class ZombieAI : MonoBehaviour
     {
         if (isDead) return;
         
+        isProvoked = true;
         currentHitPoints -= damageAmount;
         Debug.Log("Zombie HP: " + currentHitPoints);
 
