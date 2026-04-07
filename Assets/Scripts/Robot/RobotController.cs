@@ -25,6 +25,9 @@ public class RobotController : MonoBehaviour
     public LayerMask aimLayerMask = ~0;
     public int maxHitPoints = 10;
     public int currentHitPoints = 10;
+    public int maxEnergy = 100;
+    public int currentEnergy = 100;
+
 
 
     [Header("References")]
@@ -140,20 +143,26 @@ public class RobotController : MonoBehaviour
 
     IEnumerator PerformAttack()
     {
-        if (busy) yield break;
         busy = true;
-        animator.SetBool("isWalk", false);
-        animator.SetBool("isRun", false); // Stop run anim during attack
-        animator.SetBool("isAttack", true);
 
+        // 1. Force movement animations to stop so they don't fight the attack animation
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+
+        // 2. Fire the Trigger
+        animator.SetTrigger("isAttack");
+
+        // 3. Wait for the specified delay before spawning the projectile
         yield return new WaitForSeconds(fireDelay);
         FireBall();
+
         GameObject particle = Instantiate(particleBall, firePosition.transform.position, Quaternion.identity);
         Destroy(particle, 1f);
 
-        yield return new WaitForSeconds(attackDuration);
+        // 4. Wait for the rest of the attack duration to end the "busy" state
+        yield return new WaitForSeconds(attackDuration - fireDelay);
 
-        animator.SetBool("isAttack", false);
+        // 5. Note: No need to set isAttack to false; the Trigger resets itself.
         busy = false;
     }
 
@@ -181,6 +190,11 @@ public class RobotController : MonoBehaviour
         }
 
         GameObject ball = Instantiate(fireBall, firePosition.transform.position, Quaternion.identity);
+        currentEnergy -= 1;
+        if (currentEnergy < 0) currentEnergy = 0;
+        float energyPercentage = (float)currentEnergy / (float)maxEnergy;
+        energyPercentage *= 100;
+        energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
 
         FireBall ballScript = ball.GetComponent<FireBall>();
         if (ballScript != null)
@@ -216,15 +230,21 @@ public class RobotController : MonoBehaviour
                 // We want the meteor to look at the player's position
                 Vector3 directionToPlayer = transform.position - spawnPosition;
                 directionToPlayer.y = 0; // Keep the meteor level so it doesn't tilt up/down
-                
+
                 Quaternion facePlayerRotation = Quaternion.LookRotation(-directionToPlayer);
                 // ------------------------------------------
 
                 GameObject zone = Instantiate(fireZone, fireZonePosition.transform.position, Quaternion.identity);
-                
+
                 // Use facePlayerRotation instead of Quaternion.identity
                 GameObject meteor = Instantiate(meteorFire, spawnPosition, facePlayerRotation);
-                
+
+                currentEnergy -= 15;
+                if (currentEnergy < 0) currentEnergy = 0;
+                float energyPercentage = (float)currentEnergy / (float)maxEnergy;
+                energyPercentage *= 100;
+                energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
+
                 Destroy(zone, 8f);
                 Destroy(meteor, 8f);
 
@@ -252,7 +272,8 @@ public class RobotController : MonoBehaviour
             busy = true;
             animator.SetBool("isDamage", false);
             Die();
-        } else StartCoroutine(ResetDamageAnimation());
+        }
+        else StartCoroutine(ResetDamageAnimation());
     }
 
     private IEnumerator ResetDamageAnimation()
@@ -289,7 +310,7 @@ public class RobotController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started) attackPressed = true;
+        if (context.started && currentEnergy > 0) attackPressed = true;
     }
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
@@ -297,7 +318,7 @@ public class RobotController : MonoBehaviour
         // Only trigger if the button is pressed AND we aren't already attacking
         if (context.performed && !busy)
         {
-            StartCoroutine(PerformSecondaryAttack());
+            if (currentEnergy > 0) StartCoroutine(PerformSecondaryAttack());
         }
     }
     #endregion
