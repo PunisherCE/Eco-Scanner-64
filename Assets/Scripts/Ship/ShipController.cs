@@ -11,6 +11,9 @@ public class ShipController : MonoBehaviour
     public Transform cameraTransform;
     public float xBound = 8f;
     public float yBound = 4.5f;
+    private bool isFiring = false;
+    private float fireTimer = 0f;
+    public float fireRate = 0.25f;
 
     [Header("Combat Settings")]
     public GameObject bulletPrefab;
@@ -55,6 +58,19 @@ public class ShipController : MonoBehaviour
         killCount = root.Q<TextElement>("KillCount");
     }
 
+    void Update()
+    {
+        HandleMovement();
+        // Increment the timer every frame
+        fireTimer += Time.deltaTime;
+
+        if (isFiring && fireTimer >= fireRate)
+        {
+            Shoot();
+            fireTimer = 0f; // Reset the timer
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
@@ -62,34 +78,37 @@ public class ShipController : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started) isFiring = true;
+        if (context.canceled) isFiring = false;
+    }
+
+    private void Shoot()
+    {
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Camera cam = cameraTransform.GetComponent<Camera>();
+        Ray ray = cam.ScreenPointToRay(mousePosition);
+
+        // Define the gameplay plane at Z=90
+        Vector3 planeNormal = (cam.transform.position.z < 90f) ? Vector3.back : Vector3.forward;
+        Plane targetPlane = new Plane(planeNormal, new Vector3(0, 0, 90f));
+
+        if (targetPlane.Raycast(ray, out float distance))
         {
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
-            Camera cam = cameraTransform.GetComponent<Camera>();
-            Ray ray = cam.ScreenPointToRay(mousePosition);
+            Vector3 worldTarget = ray.GetPoint(distance);
+            worldTarget.z = 90f;
 
-            // Define the gameplay plane at Z=90
-            Vector3 planeNormal = (cam.transform.position.z < 90f) ? Vector3.back : Vector3.forward;
-            Plane targetPlane = new Plane(planeNormal, new Vector3(0, 0, 90f));
-
-            if (targetPlane.Raycast(ray, out float distance))
+            // Only allow firing if mouse is ahead of the ship
+            if (worldTarget.x < transform.position.x)
             {
-                Vector3 worldTarget = ray.GetPoint(distance);
-                worldTarget.z = 90f;
+                Vector3 direction = (worldTarget - firePoint.position);
+                direction.z = 0;
+                direction.Normalize();
 
-                // Only allow firing if mouse is ahead of the ship (X is lower)
-                if (worldTarget.x < transform.position.x)
-                {
-                    Vector3 direction = (worldTarget - firePoint.position);
-                    direction.z = 0;
-                    direction.Normalize();
+                // Clamp bullet direction
+                direction = Vector3.RotateTowards(Vector3.left, direction, 11f * Mathf.Deg2Rad, 0f);
 
-                    // Clamp bullet direction to 15 degrees relative to Vector3.left
-                    direction = Vector3.RotateTowards(Vector3.left, direction, 7.5f * Mathf.Deg2Rad, 0f);
-
-                    Quaternion bulletRotation = Quaternion.LookRotation(direction);
-                    Instantiate(bulletPrefab, firePoint.position, bulletRotation);
-                }
+                Quaternion bulletRotation = Quaternion.LookRotation(direction);
+                Instantiate(bulletPrefab, firePoint.position, bulletRotation);
             }
         }
     }
@@ -139,11 +158,6 @@ public class ShipController : MonoBehaviour
                 }
             }
         }
-    }
-
-    void Update()
-    {
-        HandleMovement();
     }
 
     void HandleMovement()

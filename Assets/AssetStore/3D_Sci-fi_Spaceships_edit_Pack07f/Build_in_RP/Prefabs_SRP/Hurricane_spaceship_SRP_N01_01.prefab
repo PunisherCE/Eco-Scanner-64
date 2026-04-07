@@ -29480,6 +29480,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   xBound: 8
   yBound: 4.5
+  fireRate: 0.25
   bulletPrefab: {fileID: 557579558506273268, guid: 979af5dc304ce9a459055203919d5384, type: 3}
   missilePrefab: {fileID: 4546223944443758364, guid: 727343c213b9634419f9f4935923c04e, type: 3}
   firePoint: {fileID: 4322834063076366210}
