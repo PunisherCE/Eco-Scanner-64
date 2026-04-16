@@ -32,6 +32,7 @@ public class RobotController : MonoBehaviour
 
     [Header("References")]
     public GameObject firePosition;
+    public Light lightEmission;
     public GameObject fireBall;
     public GameObject particleBall;
     public GameObject fireZone;
@@ -66,6 +67,7 @@ public class RobotController : MonoBehaviour
         VisualElement root = document.rootVisualElement;
         healthBar = root.Q<VisualElement>("HealthBar");
         energyBar = root.Q<VisualElement>("EnergyBar");
+        lightEmission.enabled = false;
 
     }
 
@@ -190,6 +192,8 @@ public class RobotController : MonoBehaviour
         }
 
         GameObject ball = Instantiate(fireBall, firePosition.transform.position, Quaternion.identity);
+        StartCoroutine(ShootLight());
+
         currentEnergy -= 1;
         if (currentEnergy < 0) currentEnergy = 0;
         float energyPercentage = (float)currentEnergy / (float)maxEnergy;
@@ -203,6 +207,12 @@ public class RobotController : MonoBehaviour
             ballScript.damage = ballDamage;
             ballScript.SetTarget(targetPoint);
         }
+    }
+
+    private IEnumerator ShootLight(){
+        lightEmission.enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        lightEmission.enabled = false;
     }
 
     private IEnumerator PerformSecondaryAttack()
