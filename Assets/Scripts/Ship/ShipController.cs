@@ -109,6 +109,7 @@ public class ShipController : MonoBehaviour
 
                 Quaternion bulletRotation = Quaternion.LookRotation(direction);
                 Instantiate(bulletPrefab, firePoint.position, bulletRotation);
+                AudioManager.Instance.PlayShoot();
             }
         }
     }
@@ -146,6 +147,7 @@ public class ShipController : MonoBehaviour
 
                         GameObject missileGo = Instantiate(missilePrefab, firePoint.position, missileRotation);
                         Missile missileScript = missileGo.GetComponent<Missile>();
+                        AudioManager.Instance.PlayMissile();
 
                         if (missileScript != null)
                         {
@@ -221,6 +223,7 @@ public class ShipController : MonoBehaviour
         healthBar.style.width = new Length(0, LengthUnit.Percent);
         int explosionIndex = Random.Range(0, explosionPrefab.Length);
         Instantiate(explosionPrefab[explosionIndex], transform.position, transform.rotation);
+        AudioManager.Instance.PlayExplosion();
         EnemySpawner.PlayerDies();
         Destroy(gameObject);
     }

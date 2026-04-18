@@ -21,5 +21,6 @@ public class F35 : MonoBehaviour // Change class name to A10 for the other one
     void Shoot() 
     { 
         Instantiate(projectilePrefab, shootPoint.transform.position, Quaternion.identity); 
+        AudioManager.Instance.PlayShoot();
     }
 }

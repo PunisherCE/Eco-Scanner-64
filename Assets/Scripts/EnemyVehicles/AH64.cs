@@ -33,5 +33,6 @@ public class AH64 : MonoBehaviour
     void Shoot()
     {
         Instantiate(projectilePrefab, shootPoint.transform.position, Quaternion.identity);
+        AudioManager.Instance.PlayShoot();
     }
 }

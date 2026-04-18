@@ -46,6 +46,7 @@ public class Missile : MonoBehaviour
         {
             int explosionIndex = Random.Range(0, explosionsEffect.Length);
             Instantiate(explosionsEffect[explosionIndex], other.transform.position, Quaternion.identity);
+            AudioManager.Instance.PlayExplosion();
             Destroy(other.gameObject);
             shipController.KillIncrement();
             Debug.Log($"Hit {other.name}!");
