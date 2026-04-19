@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -14,20 +17,34 @@ public class RobotController : MonoBehaviour
     public float attackDuration = 0.5f;
     public float ballSpeed = 10f;
     public float fireDelay = 0.35f;
+    public float fireBallRaycastDistance = 100f;
+    public int ballDamage = 1;
     public float secondaryAttackDuration = 8.5f;
     public float minDistanceMeteor = 10f;
     public float maxDistanceMeteor = 400f;
     public LayerMask aimLayerMask = ~0;
+    public int maxHitPoints = 10;
+    public int currentHitPoints = 10;
+    public int maxEnergy = 100;
+    public int currentEnergy = 100;
+
+
 
     [Header("References")]
     public GameObject firePosition;
+    public Light lightEmission;
     public GameObject fireBall;
+    public GameObject particleBall;
     public GameObject fireZone;
     public GameObject meteorFire;
     public GameObject fireZonePosition;
+    public UIDocument document;
 
     private Animator animator;
     private CharacterController characterController;
+
+    private VisualElement healthBar;
+    private VisualElement energyBar;
 
     private Vector3 velocity;
     private bool isGrounded;
@@ -46,6 +63,12 @@ public class RobotController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         if (Camera.main != null)
             cameraTransform = Camera.main.transform;
+
+        VisualElement root = document.rootVisualElement;
+        healthBar = root.Q<VisualElement>("HealthBar");
+        energyBar = root.Q<VisualElement>("EnergyBar");
+        lightEmission.enabled = false;
+
     }
 
     void Update()
@@ -89,10 +112,16 @@ public class RobotController : MonoBehaviour
         characterController.Move(move * currentSpeed * Time.deltaTime);
 
         // --- Animator Updates ---
-        // isWalk is true if moving at all
-        animator.SetBool("isWalk", isMoving);
-        // isRun is only true if moving AND holding run
-        animator.SetBool("isRun", isRunning);
+        if (isRunning)
+        {
+            animator.SetBool("isRun", true);
+            animator.SetBool("isWalk", false); // Turn off walk while running
+        }
+        else
+        {
+            animator.SetBool("isRun", false);
+            animator.SetBool("isWalk", isMoving); // Only walk if moving and NOT running
+        }
         animator.SetBool("isJump", !isGrounded);
 
         // --- Jumping ---
@@ -117,33 +146,73 @@ public class RobotController : MonoBehaviour
     IEnumerator PerformAttack()
     {
         busy = true;
-        animator.SetBool("isWalk", false);
-        animator.SetBool("isRun", false); // Stop run anim during attack
-        animator.SetBool("isAttack", true);
 
+        // 1. Force movement animations to stop so they don't fight the attack animation
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+
+        // 2. Fire the Trigger
+        animator.SetTrigger("isAttack");
+
+        // 3. Wait for the specified delay before spawning the projectile
         yield return new WaitForSeconds(fireDelay);
         FireBall();
 
-        yield return new WaitForSeconds(attackDuration);
+        GameObject particle = Instantiate(particleBall, firePosition.transform.position, Quaternion.identity);
+        Destroy(particle, 1f);
 
-        animator.SetBool("isAttack", false);
+        // 4. Wait for the rest of the attack duration to end the "busy" state
+        yield return new WaitForSeconds(attackDuration - fireDelay);
+
+        // 5. Note: No need to set isAttack to false; the Trigger resets itself.
         busy = false;
     }
 
     private void FireBall()
     {
-        Quaternion fireRotation = transform.rotation;
+        Vector3 targetPoint;
+
         if (cameraTransform != null)
         {
-            fireRotation = cameraTransform.rotation;
+            // Raycast from the center of the camera forward
+            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, fireBallRaycastDistance, aimLayerMask))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                // If no object is hit, aim at a point in the distance
+                targetPoint = cameraTransform.position + cameraTransform.forward * fireBallRaycastDistance;
+            }
         }
-        GameObject ball = Instantiate(fireBall, firePosition.transform.position, fireRotation);
+        else
+        {
+            targetPoint = firePosition.transform.position + transform.forward * fireBallRaycastDistance;
+        }
+
+        GameObject ball = Instantiate(fireBall, firePosition.transform.position, Quaternion.identity);
+        StartCoroutine(ShootLight());
+
+        currentEnergy -= 1;
+        if (currentEnergy < 0) currentEnergy = 0;
+        float energyPercentage = (float)currentEnergy / (float)maxEnergy;
+        energyPercentage *= 100;
+        energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
 
         FireBall ballScript = ball.GetComponent<FireBall>();
         if (ballScript != null)
         {
             ballScript.speed = ballSpeed;
+            ballScript.damage = ballDamage;
+            ballScript.SetTarget(targetPoint);
         }
+    }
+
+    private IEnumerator ShootLight(){
+        lightEmission.enabled = true;
+        yield return new WaitForSeconds(0.15f);
+        lightEmission.enabled = false;
     }
 
     private IEnumerator PerformSecondaryAttack()
@@ -160,8 +229,8 @@ public class RobotController : MonoBehaviour
         {
             if (hit.distance < minDistanceMeteor)
             {
-                yield return new WaitForSeconds(0.1f);
                 busy = false;
+                yield break;
             }
             else
             {
@@ -171,15 +240,21 @@ public class RobotController : MonoBehaviour
                 // We want the meteor to look at the player's position
                 Vector3 directionToPlayer = transform.position - spawnPosition;
                 directionToPlayer.y = 0; // Keep the meteor level so it doesn't tilt up/down
-                
+
                 Quaternion facePlayerRotation = Quaternion.LookRotation(-directionToPlayer);
                 // ------------------------------------------
 
                 GameObject zone = Instantiate(fireZone, fireZonePosition.transform.position, Quaternion.identity);
-                
+
                 // Use facePlayerRotation instead of Quaternion.identity
                 GameObject meteor = Instantiate(meteorFire, spawnPosition, facePlayerRotation);
-                
+
+                currentEnergy -= 15;
+                if (currentEnergy < 0) currentEnergy = 0;
+                float energyPercentage = (float)currentEnergy / (float)maxEnergy;
+                energyPercentage *= 100;
+                energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
+
                 Destroy(zone, 8f);
                 Destroy(meteor, 8f);
 
@@ -192,6 +267,36 @@ public class RobotController : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             busy = false;
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        animator.SetBool("isDamage", true);
+        currentHitPoints -= damage;
+        float healthPercentage = (float)currentHitPoints / (float)maxHitPoints;
+        healthPercentage *= 100;
+        healthBar.style.width = new Length(healthPercentage, LengthUnit.Percent);
+
+        if (currentHitPoints <= 0)
+        {
+            busy = true;
+            animator.SetBool("isDamage", false);
+            Die();
+        }
+        else StartCoroutine(ResetDamageAnimation());
+    }
+
+    private IEnumerator ResetDamageAnimation()
+    {
+        yield return new WaitForSeconds(0.15f);
+        animator.SetBool("isDamage", false);
+    }
+
+    private void Die()
+    {
+        animator.SetBool("isDead", true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // Implement game over
     }
 
     #region Input System Callbacks
@@ -215,7 +320,7 @@ public class RobotController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started) attackPressed = true;
+        if (context.started && currentEnergy > 0) attackPressed = true;
     }
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
@@ -223,7 +328,7 @@ public class RobotController : MonoBehaviour
         // Only trigger if the button is pressed AND we aren't already attacking
         if (context.performed && !busy)
         {
-            StartCoroutine(PerformSecondaryAttack());
+            if (currentEnergy > 0) StartCoroutine(PerformSecondaryAttack());
         }
     }
     #endregion
