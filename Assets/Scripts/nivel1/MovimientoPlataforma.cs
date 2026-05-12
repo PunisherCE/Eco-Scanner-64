@@ -3,7 +3,7 @@ using UnityEngine;
 public class MovimientoPlataforma : MonoBehaviour
 {
     [Header("Configuración de Movimiento")]
-    [SerializeField] private float velocidad = 10f;
+    [SerializeField] private float velocidad = 7f;
     [SerializeField] private float limiteZ = 12.5f;
     [SerializeField] private GameObject objetoPadre;
 
