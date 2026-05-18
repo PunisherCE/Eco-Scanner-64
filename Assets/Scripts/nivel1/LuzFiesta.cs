@@ -2,16 +2,30 @@ using UnityEngine;
 
 public class LuzFiesta : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float velocidad = 2f;
-    public float anguloMax = 80f;
+    public float gradosMovimiento = 60f; // Cuántos grados girará a cada lado
+
+    private float anguloInicialY;
+
+    void Start()
+    {
+        // Guardamos la rotación Y que pusiste manualmente en el Inspector
+        anguloInicialY = transform.localRotation.eulerAngles.y;
+    }
 
     void Update()
     {
-        float angulo = Mathf.PingPong(Time.time * velocidad, anguloMax);
-        transform.rotation = Quaternion.Euler(0, angulo, 0);
-    }
+        // Calculamos la oscilación
+        // Mathf.Sin crea un movimiento más fluido y natural que PingPong
+        float oscilacion = Mathf.Sin(Time.time * velocidad) * gradosMovimiento;
 
+        // Aplicamos el giro sobre el eje Y original, manteniendo X y Z como están
+        transform.localRotation = Quaternion.Euler(
+            transform.localRotation.eulerAngles.x,
+            anguloInicialY + oscilacion,
+            transform.localRotation.eulerAngles.z
+        );
+    }
 
 
 }

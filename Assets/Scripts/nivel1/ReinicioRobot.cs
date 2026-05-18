@@ -15,7 +15,7 @@ public class ReinicioRobot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.y < 130) 
+        if(transform.position.y < 90) 
         {
             CharacterController cc = GetComponent<CharacterController>();
             if (cc != null) cc.enabled = false; // Desactivar temporalmente
