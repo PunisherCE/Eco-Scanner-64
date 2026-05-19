@@ -228,7 +228,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -133.27191, y: -20.698853, z: 26.530762}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.88, y: 1, z: 3.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 0
@@ -1031,7 +1031,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -222.97186, y: -21.598854, z: 26.530762}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.88, y: 1, z: 3.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 0
@@ -1291,7 +1291,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -463.80103, y: -21.598866, z: -26.06028}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.8799996, y: 1, z: 3.8499994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -1387,7 +1387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 1
@@ -1679,7 +1679,6 @@ GameObject:
   - component: {fileID: 531163128}
   - component: {fileID: 531163127}
   - component: {fileID: 531163126}
-  - component: {fileID: 531163129}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -1715,7 +1714,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 5
 --- !u!114 &531163127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,20 +1808,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &531163129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531163124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61520d806ddb1504eb215b3ce0d0ec9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LuzFiesta
-  velocidad: 5
-  gradosMovimiento: 80
 --- !u!1001 &544294861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2176,7 +2160,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -176.30106, y: -20.69885, z: -26.06028}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.8799996, y: 1, z: 3.8499994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -2272,7 +2256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 1
@@ -2652,7 +2636,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -636.301, y: -21.598866, z: -26.06028}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.8799996, y: 1, z: 3.8499994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -2748,7 +2732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 1
@@ -2893,7 +2877,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 40
 --- !u!1001 &853749108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3357,7 +3340,6 @@ GameObject:
   - component: {fileID: 975221373}
   - component: {fileID: 975221372}
   - component: {fileID: 975221371}
-  - component: {fileID: 975221374}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -3393,7 +3375,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 5
 --- !u!114 &975221372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3488,20 +3469,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &975221374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975221369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61520d806ddb1504eb215b3ce0d0ec9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LuzFiesta
-  velocidad: 5
-  gradosMovimiento: 80
 --- !u!1001 &998522166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3745,7 +3712,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 5
 --- !u!114 &1003306212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3852,8 +3818,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61520d806ddb1504eb215b3ce0d0ec9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzFiesta
-  velocidad: 5
-  gradosMovimiento: 80
+  velocidad: 100
+  anguloMax: 80
 --- !u!1 &1008533981
 GameObject:
   m_ObjectHideFlags: 0
@@ -4397,7 +4363,7 @@ Transform:
   m_GameObject: {fileID: 1011325344}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.020715537, w: 0.9997854}
-  m_LocalPosition: {x: -777.2, y: -20.5, z: 2.2}
+  m_LocalPosition: {x: -776.70465, y: -7.691452, z: 1.8307495}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4443,7 +4409,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -363.60104, y: -21.598866, z: -26.06028}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.8799996, y: 1, z: 3.8499994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -4539,7 +4505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 1
@@ -4689,7 +4655,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 40
 --- !u!1 &1228261765 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8437244667940019680, guid: 85d93c5c24002374081c86d44cad1148, type: 3}
@@ -4738,7 +4703,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -551.301, y: -21.598866, z: -26.06028}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.8799996, y: 1, z: 3.8499994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -4834,7 +4799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 1
@@ -4947,7 +4912,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -508.2719, y: -21.598854, z: 26.530762}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.88, y: 1, z: 3.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -4964,7 +4929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 0
@@ -5617,7 +5582,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -678.9719, y: -21.598854, z: 26.530762}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.88, y: 1, z: 3.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -5634,7 +5599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 0
@@ -5894,7 +5859,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 40
 --- !u!1 &1693554980
 GameObject:
   m_ObjectHideFlags: 0
@@ -6036,7 +6000,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 40
 --- !u!1 &1722258899
 GameObject:
   m_ObjectHideFlags: 0
@@ -6146,7 +6109,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -593.2719, y: -21.598854, z: 26.530762}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.88, y: 1, z: 3.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -6163,7 +6126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 0
@@ -6276,7 +6239,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -320.5719, y: -21.598854, z: 26.530762}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.88, y: 1, z: 3.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -6293,7 +6256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 0
@@ -6520,7 +6483,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -266.00116, y: -21.598866, z: -26.06028}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.8799996, y: 1, z: 3.8499994}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -6616,7 +6579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 1
@@ -6729,7 +6692,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -420.7719, y: -21.598854, z: 26.530762}
-  m_LocalScale: {x: 3.02, y: 5.35, z: 3.56}
+  m_LocalScale: {x: 3.88, y: 1, z: 3.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1425131814}
@@ -6746,7 +6709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c199601b35f783548b8f6051e53c6fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovimientoPlataforma
-  velocidad: 7
+  velocidad: 10
   limiteZ: 10.5
   objetoPadre: {fileID: 1425131813}
   moviendoHaciaDerecha: 0
@@ -6762,7 +6725,6 @@ GameObject:
   - component: {fileID: 1922764870}
   - component: {fileID: 1922764869}
   - component: {fileID: 1922764868}
-  - component: {fileID: 1922764871}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -6798,7 +6760,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuzParpadeo
   intervalo: 0.5
-  tiempoParaDesactivar: 5
 --- !u!114 &1922764869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6893,20 +6854,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1922764871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922764866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61520d806ddb1504eb215b3ce0d0ec9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LuzFiesta
-  velocidad: 5
-  gradosMovimiento: 80
 --- !u!1 &1944449727 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1289543790355709915, guid: b99922c2f59b1a542bdd06ae8bee47ae, type: 3}
