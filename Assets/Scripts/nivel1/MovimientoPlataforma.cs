@@ -8,7 +8,7 @@ public class MovimientoPlataforma : MonoBehaviour
     [SerializeField] private GameObject objetoPadre;
 
     [Tooltip("Si es true, inicia hacia la derecha (+Z). Si es false, hacia la izquierda (-Z).")]
-    [SerializeField] private bool moviendoHaciaDerecha = true;
+    public bool moviendoHaciaDerecha = true;
 
     void Update()
     {
