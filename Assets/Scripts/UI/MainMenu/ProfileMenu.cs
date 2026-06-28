@@ -208,9 +208,11 @@ public class ProfileMenu : MonoBehaviour
     void LoadProfile(int index)
     {
         StatsManager.SaveLastPlayer(index);
+        currentProfile = index; // Update the current profile index
 
-        MainMenuUI.SetActive(true);
-        this.gameObject.SetActive(false);
+        LoadProfileButtons(); // Refresh buttons
+        // MainMenuUI.SetActive(true);
+        // this.gameObject.SetActive(false);
     }
 
     // ------------------ HELPERS ------------------
