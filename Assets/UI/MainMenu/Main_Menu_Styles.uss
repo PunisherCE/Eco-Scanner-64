@@ -20,6 +20,8 @@
     -unity-font-style: bold;
     margin-bottom: 40px;
     transition-duration: 0.35s;
+    -unity-text-generator: advanced;
+    -unity-text-auto-size: best-fit 10px 30px;
 }
 
 .ButtonsMenu:hover {

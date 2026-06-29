@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class CursorManager : MonoBehaviour
 {
-    public Texture2D crosshairTexture;
-    public Vector2 hotspot = new Vector2(32, 32); // Half of your texture size
+    public static Texture2D crosshairTexture;
+    public static Vector2 hotspot = new Vector2(32, 32); // Half of your texture size
 
     void Start()
     {
         // Change the cursor to the crosshair
+        Cursor.SetCursor(crosshairTexture, hotspot, CursorMode.Auto);
+    }
+
+    public static void SetCursorAgain()
+    {
         Cursor.SetCursor(crosshairTexture, hotspot, CursorMode.Auto);
     }
 

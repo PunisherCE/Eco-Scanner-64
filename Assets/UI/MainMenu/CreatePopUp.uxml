@@ -1,0 +1,8 @@
+<VisualElement name="CreateProfilePopup" style="display: none; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center;">
+    <VisualElement name="PopupWindow" style="width: 300px; padding: 20px; background-color: #1E1E2F; border-radius: 8px;">
+        <Label text="Create Profile" style="unity-font-style: bold; font-size: 18px; color: white; margin-bottom: 10px;" />
+        <TextField name="ProfileNameField" label="Name:" />
+        <Button name="AcceptButton" text="Accept" style="margin-top: 10px;" />
+        <Button name="CancelButton" text="Cancel" style="margin-top: 5px;" />
+    </VisualElement>
+</VisualElement>
