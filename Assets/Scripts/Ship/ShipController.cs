@@ -84,6 +84,7 @@ public class ShipController : MonoBehaviour
 
     private void Shoot()
     {
+        CursorManager.SetCursorAgain();
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         Camera cam = cameraTransform.GetComponent<Camera>();
         Ray ray = cam.ScreenPointToRay(mousePosition);
@@ -116,6 +117,7 @@ public class ShipController : MonoBehaviour
 
     public void OnMissile(InputAction.CallbackContext context)
     {
+        CursorManager.SetCursorAgain();
         if (context.started && missileAmmo > 0)
         {
             Vector2 mousePosition = Mouse.current.position.ReadValue();

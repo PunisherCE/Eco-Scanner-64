@@ -1,0 +1,23 @@
+:root {
+}
+
+.BackButton {
+}
+
+.BackButton:hover {
+    scale: 1.1 1.1 1.1;
+    transition-duration: 0.45s;
+}
+
+.ProfileButton {
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+}
+
+

@@ -333,8 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cbd05b651101f46899dd34cf63a123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorManager
-  crosshairTexture: {fileID: 2800000, guid: 666f45a1953efde4aacb8867e4d0d8f5, type: 3}
-  hotspot: {x: 32, y: 32}
 --- !u!1 &449154729
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,6 +627,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1007462238
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 82.83012
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 214.99843
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.97653
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497791692729572024, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925876509274503991, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 3450380680767216416}
+    - target: {fileID: 6244784139183147189, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+      propertyPath: m_Name
+      value: Pause
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
 --- !u!1 &1521393760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,6 +1126,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c998b9ca5b879cf418bfddfe2bea25c2, type: 3}
+--- !u!114 &3450380680767216416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5063957295795102980, guid: c998b9ca5b879cf418bfddfe2bea25c2, type: 3}
+  m_PrefabInstance: {fileID: 3450380680767216415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1078,3 +1148,4 @@ SceneRoots:
   - {fileID: 3450380680767216415}
   - {fileID: 1947132621}
   - {fileID: 977374655}
+  - {fileID: 1007462238}

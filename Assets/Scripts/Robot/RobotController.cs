@@ -166,6 +166,13 @@ public class RobotController : MonoBehaviour
 
         // 5. Note: No need to set isAttack to false; the Trigger resets itself.
         busy = false;
+
+        // Restore movement animation state
+        bool isMoving = moveInput.magnitude > 0.1f;
+        bool isRunning = isMoving && runPressed && moveInput.y > 0.1f;
+
+        animator.SetBool("isWalk", isMoving);
+        animator.SetBool("isRun", isRunning);
     }
 
     private void FireBall()
@@ -209,7 +216,8 @@ public class RobotController : MonoBehaviour
         }
     }
 
-    private IEnumerator ShootLight(){
+    private IEnumerator ShootLight()
+    {
         lightEmission.enabled = true;
         yield return new WaitForSeconds(0.15f);
         lightEmission.enabled = false;
@@ -298,6 +306,21 @@ public class RobotController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // Implement game over
     }
+
+    public void UpdateHealthUI()
+    {
+        float healthPercentage = (float)currentHitPoints / (float)maxHitPoints;
+        healthPercentage *= 100f;
+        healthBar.style.width = new Length(healthPercentage, LengthUnit.Percent);
+    }
+
+    public void UpdateEnergyUI()
+    {
+        float energyPercentage = (float)currentEnergy / (float)maxEnergy;
+        energyPercentage *= 100f;
+        energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
+    }
+
 
     #region Input System Callbacks
     public void OnMove(InputAction.CallbackContext context)
