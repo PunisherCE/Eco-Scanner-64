@@ -164,15 +164,7 @@ public class RobotController : MonoBehaviour
         // 4. Wait for the rest of the attack duration to end the "busy" state
         yield return new WaitForSeconds(attackDuration - fireDelay);
 
-        // 5. Note: No need to set isAttack to false; the Trigger resets itself.
         busy = false;
-
-        // Restore movement animation state
-        bool isMoving = moveInput.magnitude > 0.1f;
-        bool isRunning = isMoving && runPressed && moveInput.y > 0.1f;
-
-        animator.SetBool("isWalk", isMoving);
-        animator.SetBool("isRun", isRunning);
     }
 
     private void FireBall()

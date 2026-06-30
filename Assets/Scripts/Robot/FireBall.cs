@@ -15,27 +15,24 @@ public class FireBall : MonoBehaviour
     public void SetTarget(Vector3 targetPoint)
     {
         _moveDirection = (targetPoint - transform.position).normalized;
-        
+
         if (_moveDirection != Vector3.zero)
         {
             transform.forward = _moveDirection;
         }
-        
+
         _isDirectionSet = true;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Destroy(gameObject, 4f);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_isDirectionSet)
         {
-            // Move at constant speed in the calculated direction
             transform.position += _moveDirection * speed * Time.deltaTime;
         }
         else
@@ -46,16 +43,33 @@ public class FireBall : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag != "Player")
+        if (other.gameObject.CompareTag("Player")) return;
+
+        // Spawn impact particle
+        if (particleEffect != null)
         {
             GameObject particle = Instantiate(particleEffect, transform.position, Quaternion.identity);
             Destroy(particle, 1f);
-
-            if (other.gameObject.tag == "Enemy")
-            {
-                other.gameObject.GetComponent<ZombieAI>().TakeDamage(damage);
-            }
-            Destroy(gameObject);
         }
+
+        // Damage logic for enemies
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            // Try ZombieAI
+            ZombieAI zombie = other.GetComponent<ZombieAI>();
+            if (zombie != null)
+            {
+                zombie.TakeDamage(damage);
+            }
+
+            // Try SkeletonAI
+            SkeletonAI skeleton = other.GetComponent<SkeletonAI>();
+            if (skeleton != null)
+            {
+                skeleton.TakeDamage(damage);
+            }
+        }
+
+        Destroy(gameObject);
     }
 }
