@@ -7,7 +7,7 @@ public class PrefabSpawner : MonoBehaviour
 
     private float startTime;
     private float targetTime = 235.0f;
-    private float spawnInterval = 2f; // Time interval between spawns
+    public float spawnInterval = 1.3f; // Time interval between spawns
     private float nextSpawnTime;
 
     void Start()
