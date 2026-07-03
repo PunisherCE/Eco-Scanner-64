@@ -967,8 +967,10 @@ MonoBehaviour:
   damage: 2
   deathDelay: 5
   animator: {fileID: 8037655673141330159}
-  player: {fileID: 0}
   sword: {fileID: 6786178256925278076}
+  pickupItems:
+  - {fileID: 6415613155877582370, guid: 552423c417fe2fa4eb35aef604561aa3, type: 3}
+  - {fileID: 8672040320315658958, guid: bf8e69fe2b7dbe54c8c50014a39ceac8, type: 3}
 --- !u!136 &5509360562513131044
 CapsuleCollider:
   m_ObjectHideFlags: 0

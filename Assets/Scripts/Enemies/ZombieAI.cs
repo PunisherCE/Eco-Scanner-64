@@ -14,6 +14,9 @@ public class ZombieAI : MonoBehaviour
     public int damage = 1;
     public float provokedTimerMax = 6.5f;
 
+    [Header("References")]
+    public GameObject[] pickupItems; // Array to hold the two pickup items (e.g., health and ammo)
+
     private Animator animator;
     private Transform player;
     private GameObject playerObj;
@@ -153,11 +156,25 @@ public class ZombieAI : MonoBehaviour
     private void Die()
     {
         isDead = true;
+        
+        // Immediately stop other coroutines and reset state flags to prevent interference
+        StopAllCoroutines();
+        isTakingDamage = false;
+        isAttacking = false;
+
         SetAnimationState("Idle"); // Force all movement bools to false
         animator.SetBool("isDead", true); // Use a BOOL for Dead so he STAYS down
+
+        float randomValue = Random.value;
+        if (randomValue < 0.2f && pickupItems.Length > 0)
+        {
+            // Randomly select one of the pickup items to spawn
+            int randomIndex = Random.Range(0, pickupItems.Length);
+            Instantiate(pickupItems[randomIndex], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+        }
         
         // Disable the collider so he doesn't block the player while dead
-        GetComponent<Collider>().enabled = false; 
+        //GetComponent<Collider>().enabled = false; 
 
         Destroy(gameObject, delayedTimeDead);
     }

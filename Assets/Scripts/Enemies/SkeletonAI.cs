@@ -19,6 +19,9 @@ public class SkeletonAI : MonoBehaviour
     public Animator animator;
     public EnemySword sword; // your sword child script
 
+    [Header("References")]
+    public GameObject[] pickupItems; 
+
     private Transform player;
     private bool isDead = false;
     private bool isAttacking = false;
@@ -120,8 +123,23 @@ public class SkeletonAI : MonoBehaviour
     private void Die()
     {
         isDead = true;
+
+        StopAllCoroutines();
+        isTakingDamage = false;
+        isAttacking = false;
+        
+        SetAnimationState("Idle");
         animator.SetBool("Fall1", true);
-        GetComponent<Collider>().enabled = false;
+
+
+        float randomValue = Random.value;
+        if (randomValue < 0.2f && pickupItems.Length > 0)
+        {
+            // Randomly select one of the pickup items to spawn
+            int randomIndex = Random.Range(0, pickupItems.Length);
+            Instantiate(pickupItems[randomIndex], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+        }
+        //GetComponent<Collider>().enabled = false;
         Destroy(gameObject, deathDelay);
     }
 
