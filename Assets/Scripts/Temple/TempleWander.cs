@@ -21,7 +21,15 @@ public class TempleWander : MonoBehaviour
     void Update()
     {
         // This script is enabled when the zombie enters the temple.
-        // If it's not waiting for the next target, find one and tell the AI to wander.
+        // If the player comes into range, the main ZombieAI loop will handle chasing.
+        // We just need to stop giving it wander commands.
+        if (zombieAI.PlayerIsInChaseRange())
+        {
+            isWaiting = true; // Stop wandering. ZombieAI will switch to Chasing state.
+            return;
+        }
+
+        // If not waiting for the next target and player is not in range, find a new wander point.
         if (!isWaiting)
         {
             Vector3 wanderTarget = GetRandomPointInside(templeArea);

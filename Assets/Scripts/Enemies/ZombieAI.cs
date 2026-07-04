@@ -62,7 +62,11 @@ public class ZombieAI : MonoBehaviour
                 break;
             case ZombieState.CorrectingCourse:
             case ZombieState.Wandering:
-                ChaseTarget();
+                if (PlayerIsInChaseRange())
+                {
+                    movementTarget = player.position;
+                    ChaseTarget();
+                } else ChaseTarget();
                 break;
             // Attacking, TakingDamage, and Dead states are handled by coroutines and don't need active Update logic.
             case ZombieState.Attacking:
@@ -207,6 +211,8 @@ public class ZombieAI : MonoBehaviour
             }
         }
 
+        ZombieSpawner.totalZombiesSpawned--; // Decrement the total zombies spawned count
+
         Destroy(gameObject, delayedTimeDead);
         yield return null; // Coroutine needs to yield something
     }
@@ -246,11 +252,24 @@ public class ZombieAI : MonoBehaviour
         currentMoveSpeed = speed;
     }
 
+    public bool PlayerIsInChaseRange()
+    {
+        if (player == null) return false;
+        return Vector3.Distance(transform.position, player.position) <= detectionRadius;
+    }
+
     public void OnEnterTemple()
     {
-        // When entering the temple, stop chasing and start wandering.
-        // The TempleWander script will then provide the first wander point.
-        isFollowingPlayer = false;
-        currentState = ZombieState.Idle;
+        // When entering the temple, check if we should keep chasing the player
+        // or start wandering.
+        if (PlayerIsInChaseRange())
+        {
+            // Player is close, keep chasing.
+            isFollowingPlayer = true;
+            currentState = ZombieState.Chasing;
+        } else {
+            // Player is not close, start wandering.
+            currentState = ZombieState.Idle;
+        }
     }
 }

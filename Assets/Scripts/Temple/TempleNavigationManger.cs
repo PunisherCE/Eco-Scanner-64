@@ -5,10 +5,10 @@ public class TempleNavigationManager : MonoBehaviour
     public static TempleNavigationManager Instance;
 
     [Header("Correct Targets")]
-    public Transform correctTargetN;
-    public Transform correctTargetS;
-    public Transform correctTargetE;
-    public Transform correctTargetW;
+    public Collider correctTargetN;
+    public Collider correctTargetS;
+    public Collider correctTargetE;
+    public Collider correctTargetW;
 
     [Header("Off-Target Triggers")]
     public Collider offTargetTriggerN;

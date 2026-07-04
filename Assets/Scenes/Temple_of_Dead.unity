@@ -267,10 +267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95724f95fe581fb4eaacd869c71bee97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TempleNavigationManager
-  correctTargetN: {fileID: 2042773764}
-  correctTargetS: {fileID: 1754176079}
-  correctTargetE: {fileID: 895707264}
-  correctTargetW: {fileID: 125921522}
+  correctTargetN: {fileID: 2042773765}
+  correctTargetS: {fileID: 1754176080}
+  correctTargetE: {fileID: 895707265}
+  correctTargetW: {fileID: 125921523}
   offTargetTriggerN: {fileID: 694380134}
   offTargetTriggerN2: {fileID: 1761571636}
   offTargetTriggerS: {fileID: 1827827879}
@@ -1576,7 +1576,7 @@ GameObject:
   - component: {fileID: 732934477}
   - component: {fileID: 732934476}
   - component: {fileID: 732934475}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RampEntranceE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2914,7 +2914,7 @@ GameObject:
   - component: {fileID: 1498598390}
   - component: {fileID: 1498598389}
   - component: {fileID: 1498598388}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RampEntranceN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3290,6 +3290,7 @@ MonoBehaviour:
   initialSpawnInterval: 1
   spawnsBeforeReduction: 20
   intervalReductionAmount: 0.1
+  maxZombies: 80
 --- !u!4 &1507474780
 Transform:
   m_ObjectHideFlags: 0
@@ -4442,7 +4443,7 @@ GameObject:
   - component: {fileID: 1927266222}
   - component: {fileID: 1927266221}
   - component: {fileID: 1927266220}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RampEntranceS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4859,7 +4860,7 @@ GameObject:
   - component: {fileID: 1965820175}
   - component: {fileID: 1965820174}
   - component: {fileID: 1965820173}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MainFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5844,7 +5845,7 @@ GameObject:
   - component: {fileID: 2108614722}
   - component: {fileID: 2108614721}
   - component: {fileID: 2108614720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RampEntranceW
   m_TagString: Untagged
   m_Icon: {fileID: 0}

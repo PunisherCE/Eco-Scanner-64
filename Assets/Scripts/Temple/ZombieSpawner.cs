@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ZombieSpawner : MonoBehaviour
 {
@@ -10,13 +12,16 @@ public class ZombieSpawner : MonoBehaviour
     public float initialSpawnInterval = 10f;   // starting timer
     public int spawnsBeforeReduction = 5;      // reduce timer every X spawns
     public float intervalReductionAmount = 1f; // reduce timer by this amount
+    public int maxZombies = 80; // Maximum number of zombies allowed in the scene
 
+    [NonSerialized] public static int totalZombiesSpawned = 0; // Track total zombies spawned
     private float currentInterval;
     private float timer;
     private int spawnCount;
 
     void Start()
     {
+        totalZombiesSpawned = 0;
         currentInterval = initialSpawnInterval;
         timer = currentInterval;
     }
@@ -24,6 +29,12 @@ public class ZombieSpawner : MonoBehaviour
     void Update()
     {
         timer -= Time.deltaTime;
+
+        if (totalZombiesSpawned >= maxZombies)
+        {
+            // If the maximum number of zombies is reached, do not spawn more.
+            return;
+        }
 
         if (timer <= 0f)
         {
@@ -42,8 +53,11 @@ public class ZombieSpawner : MonoBehaviour
 
     void SpawnZombie()
     {
-        Vector3 randomPos = Random.onUnitSphere * spawnRadius;
-        randomPos.y = 0f; // keep on ground level
+        totalZombiesSpawned++;
+
+        Vector2 circle = Random.insideUnitCircle.normalized * spawnRadius;
+        Vector3 randomPos = new Vector3(circle.x, 0f, circle.y);
+
 
         Vector3 spawnPosition = transform.position + randomPos;
 

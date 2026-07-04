@@ -25,16 +25,16 @@ public class ZombieEntranceCorrection : MonoBehaviour
         var nav = TempleNavigationManager.Instance;
 
         if (other == nav.offTargetTriggerN || other == nav.offTargetTriggerN2)
-            currentDestination = nav.correctTargetN;
+            currentDestination = nav.correctTargetN.transform;
 
         else if (other == nav.offTargetTriggerS || other == nav.offTargetTriggerS2)
-            currentDestination = nav.correctTargetS;
+            currentDestination = nav.correctTargetS.transform;
 
         else if (other == nav.offTargetTriggerE || other == nav.offTargetTriggerE2)
-            currentDestination = nav.correctTargetE;
+            currentDestination = nav.correctTargetE.transform;
 
         else if (other == nav.offTargetTriggerW || other == nav.offTargetTriggerW2)
-            currentDestination = nav.correctTargetW;
+            currentDestination = nav.correctTargetW.transform;
 
         else if (other == nav.correctTargetN || other == nav.correctTargetS || other == nav.correctTargetE || other == nav.correctTargetW)
             currentDestination = nav.insideTempleTrigger.transform; // Reached the correct target, no further correction needed.
