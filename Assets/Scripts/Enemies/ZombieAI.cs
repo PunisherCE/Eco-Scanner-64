@@ -63,10 +63,8 @@ public class ZombieAI : MonoBehaviour
             case ZombieState.CorrectingCourse:
             case ZombieState.Wandering:
                 if (PlayerIsInChaseRange())
-                {
                     movementTarget = player.position;
-                    ChaseTarget();
-                } else ChaseTarget();
+                ChaseTarget();
                 break;
             // Attacking, TakingDamage, and Dead states are handled by coroutines and don't need active Update logic.
             case ZombieState.Attacking:
