@@ -135,9 +135,19 @@ public class SkeletonAI : MonoBehaviour
         float randomValue = Random.value;
         if (randomValue < 0.2f && pickupItems.Length > 0)
         {
+            Debug.Log("Zombie dropped an item!");
+            randomValue = Random.value;
             // Randomly select one of the pickup items to spawn
-            int randomIndex = Random.Range(0, pickupItems.Length);
-            Instantiate(pickupItems[randomIndex], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+            if(randomValue < 0.66f)
+            {
+                // energy pickup
+                Instantiate(pickupItems[0], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity); // Health
+            }
+            else
+            {
+                //health pickup
+                Instantiate(pickupItems[1], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity); // Ammo
+            }
         }
         //GetComponent<Collider>().enabled = false;
         Destroy(gameObject, deathDelay);

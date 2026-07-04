@@ -1,8 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ZombieAI : MonoBehaviour
 {
+    // State machine for managing zombie behavior
+    public enum ZombieState { Idle, Chasing, Attacking, CorrectingCourse, Wandering, TakingDamage, Dead }
+    [Header("AI State")]
+    [SerializeField] private ZombieState currentState = ZombieState.Idle;
+
+    [Header("Movement")]
     [SerializeField] private float detectionRadius = 20f;
     [SerializeField] private float attackDistance = 2.2f;
     [SerializeField] private float moveSpeed = 3f;
@@ -18,104 +26,123 @@ public class ZombieAI : MonoBehaviour
     public GameObject[] pickupItems; // Array to hold the two pickup items (e.g., health and ammo)
 
     private Animator animator;
-    private Transform player;
-    private GameObject playerObj;
-    
-    private bool isDead = false;
-    private bool isTakingDamage = false;
-    private bool isAttacking = false;
+    private Transform player;    
+
+    // State control variables
+    private Vector3 movementTarget;
+    private float currentMoveSpeed;
+
     private bool isProvoked = false;
     private float provokeTimer;
+    [NonSerialized] public bool isFollowingPlayer = false;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         currentHitPoints = maxHitPoints; // Ensure they start with full health
-        playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null) player = playerObj.transform;
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null) player = playerObject.transform;
         provokeTimer = provokedTimerMax;
+        currentMoveSpeed = moveSpeed;
     }
 
     void Update()
     {
-        // EMERGENCY EXIT: If dead, do absolutely nothing.
-        if (isDead) return;
-
-        // If flinching from damage or attacking, don't move or rotate.
-        if (isTakingDamage || isAttacking) return;
-
-        if (player == null)
+        // The state machine is managed by other methods and coroutines.
+        // The Update loop just executes the behavior for the current state.
+        switch (currentState)
         {
-            SetAnimationState("Idle");
-            return;
+            case ZombieState.Idle:
+                LookForPlayer();
+                SetAnimationState("Idle");
+                break;
+            case ZombieState.Chasing:
+                movementTarget = player.position;
+                ChaseTarget();
+                break;
+            case ZombieState.CorrectingCourse:
+            case ZombieState.Wandering:
+                ChaseTarget();
+                break;
+            // Attacking, TakingDamage, and Dead states are handled by coroutines and don't need active Update logic.
+            case ZombieState.Attacking:
+            case ZombieState.TakingDamage:
+            case ZombieState.Dead:
+                break;
         }
 
-        float distance = Vector3.Distance(transform.position, player.position);
+        UpdateProvokedState();
+    }
 
-        if (isProvoked)
-        {
-            provokeTimer -= Time.deltaTime;
-        } else provokeTimer = provokedTimerMax;
+    private void LookForPlayer()
+    {
+        if (player == null || currentState != ZombieState.Idle) return;
 
-        if (provokeTimer <= 0)
+        if (Vector3.Distance(transform.position, player.position) <= detectionRadius || isProvoked)
         {
-            isProvoked = false;
-        }
-
-        // If provoked by taking damage, reset provocation once we are well within normal detection range
-        if (isProvoked && distance <= detectionRadius - 2f)
-        {
-            isProvoked = false;
-        }
-
-        // Follow the player if they are within range OR if the zombie is currently provoked
-        if (distance <= detectionRadius || isProvoked)
-        {
-            // Rotate to face player
-            Vector3 direction = (player.position - transform.position).normalized;
-            direction.y = 0;
-            if (direction != Vector3.zero)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
-            }
-
-            if (distance <= attackDistance)
-            {
-                StartCoroutine(DealDamage());
-            }
-            else
-            {
-                // MOVE
-                SetAnimationState("Walk");
-                transform.position += transform.forward * moveSpeed * Time.deltaTime;
-            }
-        }
-        else
-        {
-            SetAnimationState("Idle");
+            isFollowingPlayer = true;
+            currentState = ZombieState.Chasing;
         }
     }
 
-    // A cleaner way to handle animations without constant Bool flickering
+    private void ChaseTarget()
+    {
+        if (player == null) { currentState = ZombieState.Idle; return; }
+
+        float distanceToTarget = Vector3.Distance(transform.position, movementTarget);
+
+        // If chasing the player, check if we should switch to attacking or idle.
+        if (currentState == ZombieState.Chasing)
+        {
+            if (distanceToTarget <= attackDistance)
+            {
+                StartCoroutine(AttackRoutine());
+                return;
+            }
+            if (distanceToTarget > detectionRadius && !isProvoked)
+            {
+                isFollowingPlayer = false;
+                currentState = ZombieState.Idle;
+                return;
+            }
+        }
+
+        // If wandering, check if we reached the destination.
+        if (currentState == ZombieState.Wandering && distanceToTarget < 0.5f)
+        {
+            currentState = ZombieState.Idle;
+            GetComponent<TempleWander>().OnDestinationReached();
+            return;
+        }
+
+        // --- Movement and Rotation ---
+        SetAnimationState("Walk");
+        Vector3 direction = (movementTarget - transform.position).normalized;
+        direction.y = 0;
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
+        }
+        transform.position += transform.forward * currentMoveSpeed * Time.deltaTime;
+    }
+
     private void SetAnimationState(string state)
     {
-        // Reset all movement bools first
         animator.SetBool("isWalk", state == "Walk");
         animator.SetBool("isIdle", state == "Idle");
-        // We handle isDamage, isAttack, and isDead via Triggers/Specific logic
     }
 
     public void TakeDamage(int damageAmount)
     {
-        if (isDead) return;
-        
+        if (currentState == ZombieState.Dead) return;
+
         isProvoked = true;
         currentHitPoints -= damageAmount;
         Debug.Log("Zombie HP: " + currentHitPoints);
 
         if (currentHitPoints <= 0)
         {
-            Die();
+            StartCoroutine(DieRoutine());
         }
         else
         {
@@ -125,57 +152,105 @@ public class ZombieAI : MonoBehaviour
 
     private IEnumerator DamageRoutine()
     {
-        isTakingDamage = true;
-        SetAnimationState("Idle"); // Stop walking
-        animator.SetTrigger("isDamage"); // Use a TRIGGER for hit flinch
-        
-        yield return new WaitForSeconds(0.6f); // Match this to your "Hit" animation length
-        
-        isTakingDamage = false;
+        ZombieState stateBeforeDamage = currentState;
+        currentState = ZombieState.TakingDamage;
+        SetAnimationState("Idle"); 
+        animator.SetTrigger("isDamage");
+
+        yield return new WaitForSeconds(0.6f); 
+
+        currentState = stateBeforeDamage;
+        // If we were idle, look for the player again immediately.
+        if (currentState == ZombieState.Idle) LookForPlayer();
     }
 
-    private IEnumerator DealDamage()
+    private IEnumerator AttackRoutine()
     {
-        isAttacking = true;
+        currentState = ZombieState.Attacking;
         SetAnimationState("Idle");
-        
-        animator.SetTrigger("isAttack"); // Use the TRIGGER
+        animator.SetTrigger("isAttack");
 
-        yield return new WaitForSeconds(0.5f); // Wind-up time
+        yield return new WaitForSeconds(0.5f);
 
-        if (playerObj != null && Vector3.Distance(transform.position, player.position) <= attackDistance + 0.5f)
+        if (player != null && Vector3.Distance(transform.position, player.position) <= attackDistance + 0.5f)
         {
-            // Assuming your RobotController has this method
-            playerObj.GetComponent<RobotController>().TakeDamage(damage);
+            player.GetComponent<RobotController>().TakeDamage(damage);
         }
 
-        yield return new WaitForSeconds(1.0f); // Cooldown/Finish animation
-        isAttacking = false;
+        yield return new WaitForSeconds(1.0f); 
+
+        // After attacking, go back to chasing. The chase logic will re-evaluate distance.
+        currentState = ZombieState.Chasing;
     }
 
-    private void Die()
+    private IEnumerator DieRoutine()
     {
-        isDead = true;
-        
-        // Immediately stop other coroutines and reset state flags to prevent interference
+        currentState = ZombieState.Dead;
         StopAllCoroutines();
-        isTakingDamage = false;
-        isAttacking = false;
 
-        SetAnimationState("Idle"); // Force all movement bools to false
-        animator.SetBool("isDead", true); // Use a BOOL for Dead so he STAYS down
+        SetAnimationState("Idle");
+        animator.SetBool("isDead", true);
 
         float randomValue = Random.value;
         if (randomValue < 0.2f && pickupItems.Length > 0)
         {
+            Debug.Log("Zombie dropped an item!");
+            randomValue = Random.value;
             // Randomly select one of the pickup items to spawn
-            int randomIndex = Random.Range(0, pickupItems.Length);
-            Instantiate(pickupItems[randomIndex], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+            if(randomValue < 0.66f)
+            {
+                Instantiate(pickupItems[0], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity); // Health
+            }
+            else
+            {
+                Instantiate(pickupItems[1], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity); // Ammo
+            }
         }
-        
-        // Disable the collider so he doesn't block the player while dead
-        //GetComponent<Collider>().enabled = false; 
 
         Destroy(gameObject, delayedTimeDead);
+        yield return null; // Coroutine needs to yield something
+    }
+
+    private void UpdateProvokedState()
+    {
+        if (!isProvoked) return;
+
+        provokeTimer -= Time.deltaTime;
+
+        if (provokeTimer <= 0)
+        {
+            isProvoked = false;
+            provokeTimer = provokedTimerMax;
+        }
+
+        if (player != null && Vector3.Distance(transform.position, player.position) <= detectionRadius - 2f)
+        {
+            isProvoked = false;
+            provokeTimer = provokedTimerMax;
+        }
+    }
+
+    // --- Public methods for other scripts to call ---
+
+    public void CorrectCourse(Transform destination, float speed)
+    {
+        currentState = ZombieState.CorrectingCourse;
+        movementTarget = destination.position;
+        currentMoveSpeed = speed;
+    }
+
+    public void WanderTo(Vector3 destination, float speed)
+    {
+        currentState = ZombieState.Wandering;
+        movementTarget = destination;
+        currentMoveSpeed = speed;
+    }
+
+    public void OnEnterTemple()
+    {
+        // When entering the temple, stop chasing and start wandering.
+        // The TempleWander script will then provide the first wander point.
+        isFollowingPlayer = false;
+        currentState = ZombieState.Idle;
     }
 }

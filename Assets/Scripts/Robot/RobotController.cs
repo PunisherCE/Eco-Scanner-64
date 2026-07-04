@@ -111,17 +111,6 @@ public class RobotController : MonoBehaviour
 
         characterController.Move(move * currentSpeed * Time.deltaTime);
 
-        // --- Animator Updates ---
-        if (isRunning)
-        {
-            animator.SetBool("isRun", true);
-            animator.SetBool("isWalk", false); // Turn off walk while running
-        }
-        else
-        {
-            animator.SetBool("isRun", false);
-            animator.SetBool("isWalk", isMoving); // Only walk if moving and NOT running
-        }
         animator.SetBool("isJump", !isGrounded);
 
         // --- Jumping ---
@@ -136,6 +125,18 @@ public class RobotController : MonoBehaviour
         {
             StartCoroutine(PerformAttack());
             attackPressed = false;
+        }
+
+        // --- Animator Updates ---
+        if (isRunning)
+        {
+            animator.SetBool("isRun", true);
+            animator.SetBool("isWalk", false); // Turn off walk while running
+        }
+        else
+        {
+            animator.SetBool("isRun", false);
+            animator.SetBool("isWalk", isMoving); // Only walk if moving and NOT running
         }
 
         // --- Apply Gravity ---
