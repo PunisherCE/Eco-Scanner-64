@@ -34,6 +34,7 @@ public class ZombieAI : MonoBehaviour
 
     private bool isProvoked = false;
     private float provokeTimer;
+    private bool isDead = false;
     [NonSerialized] public bool isFollowingPlayer = false;
 
     void Start()
@@ -48,6 +49,11 @@ public class ZombieAI : MonoBehaviour
 
     void Update()
     {
+        if (isDead) {
+            movementTarget = TempleNavigationManager.Instance.insideTempleTrigger.transform.position; // Move to the temple interior if dead
+            return;
+        }
+
         // The state machine is managed by other methods and coroutines.
         // The Update loop just executes the behavior for the current state.
         switch (currentState)
@@ -97,7 +103,7 @@ public class ZombieAI : MonoBehaviour
         float distanceToTarget = Vector3.Distance(transform.position, movementTarget);
 
         // If chasing the player, check if we should switch to attacking or idle.
-        if (currentState == ZombieState.Chasing)
+        if (currentState == ZombieState.Chasing && !isDead)
         {
             if (distanceToTarget <= attackDistance)
             {
@@ -190,6 +196,7 @@ public class ZombieAI : MonoBehaviour
 
     private IEnumerator DieRoutine()
     {
+        isDead = true;
         currentState = ZombieState.Dead;
         StopAllCoroutines();
 
@@ -204,11 +211,11 @@ public class ZombieAI : MonoBehaviour
             // Randomly select one of the pickup items to spawn
             if(randomValue < 0.66f)
             {
-                Instantiate(pickupItems[0], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity); // Health
+                Instantiate(pickupItems[0], transform.position + new Vector3(0, 1f, 0), Quaternion.identity); // Health
             }
             else
             {
-                Instantiate(pickupItems[1], transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity); // Ammo
+                Instantiate(pickupItems[1], transform.position + new Vector3(0, 1f, 0), Quaternion.identity); // Ammo
             }
         }
 
