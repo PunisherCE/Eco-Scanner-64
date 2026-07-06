@@ -5,11 +5,15 @@ public class SecondaryMouseLook : MonoBehaviour
     [Header("Settings")]
     public float distance = 6f;          // How far behind the player the camera stays
     public float height = 2f;            // Height offset
-    public float smoothSpeed = 8f;       // Smooth follow
+    public float smoothTime = 0.1f;      // Time it takes for the camera to reach the target. Lower is faster.
+    public Vector3 lookAtOffset = new Vector3(0, 1.5f, 0); // The point above the player's pivot to look at.
 
     [Header("References")]
     public Transform playerBody;         // The robot
     public Transform cameraTransform;    // The main camera
+
+    // Private variable to store the camera's velocity for SmoothDamp
+    private Vector3 _cameraVelocity = Vector3.zero;
 
     void Start()
     {
@@ -23,25 +27,24 @@ public class SecondaryMouseLook : MonoBehaviour
             int invert = playerBody.GetComponent<SecondaryRobotController>().invertForward;  // Get the invert setting from the robot controller
             distance = distance * invert;  // Apply inversion to the camera distance
         }
-
-        
     }
 
     void LateUpdate()
     {
         if (playerBody == null) return;
 
-        // Desired position: behind the player, using a fixed world direction
+        // 1. Calculate the desired camera position using a fixed world direction.
+        // This keeps the camera from rotating with the player.
         Vector3 desiredPos =
             playerBody.position
             - Vector3.forward * distance // Use a fixed world direction instead of player's forward
             + Vector3.up * height;
 
-        // Smooth follow
-        cameraTransform.position =
-            Vector3.Lerp(cameraTransform.position, desiredPos, smoothSpeed * Time.deltaTime);
+        // 2. Smoothly move the camera towards the desired position.
+        // Vector3.SmoothDamp is ideal for this as it provides a much smoother follow and avoids jitter.
+        cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, desiredPos, ref _cameraVelocity, smoothTime);
 
-        // Always look at the player
-        cameraTransform.LookAt(playerBody.position + Vector3.up * 1.5f);
+        // 3. Always look at the player's look-at target.
+        cameraTransform.LookAt(playerBody.position + lookAtOffset);
     }
 }

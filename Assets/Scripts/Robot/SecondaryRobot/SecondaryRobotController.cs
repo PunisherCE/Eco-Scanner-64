@@ -47,13 +47,11 @@ public class SecondaryRobotController : MonoBehaviour
             transform.Rotate(0f, x * 120f * Time.deltaTime, 0f);
         }
         
-        // WALK SPEED MULTIPLIER (Animator expects this)
+        // Set WalkSpeedMultiplier for forward/backward animation blending
         if (z < -0.1f)
             animator.SetFloat("WalkSpeedMultiplier", -1f);
-        else if (z > 0.1f)
-            animator.SetFloat("WalkSpeedMultiplier", 1f);
         else
-            animator.SetFloat("WalkSpeedMultiplier", 0f);
+            animator.SetFloat("WalkSpeedMultiplier", 1f);
 
         bool isMoving = moveInput.magnitude > 0.1f;
         bool isRunning = isMoving && runPressed && z > 0.1f;
@@ -64,10 +62,10 @@ public class SecondaryRobotController : MonoBehaviour
         Vector3 move = transform.forward * z * speed; // Move forward/backward based on vertical input
         controller.Move(move * Time.deltaTime);
 
-        // ANIMATIONS
+        // --- ANIMATION STATE LOGIC ---
+        // The Animator will transition to Idle by default when both isWalk and isRun are false.
         animator.SetBool("isRun", isRunning);
         animator.SetBool("isWalk", isMoving && !isRunning);
-        animator.SetBool("isIdle", !isMoving && isGrounded);
 
         // JUMP
         if (jumpPressed && isGrounded)
