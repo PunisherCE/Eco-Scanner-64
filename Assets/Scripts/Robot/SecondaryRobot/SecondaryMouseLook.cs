@@ -24,7 +24,7 @@ public class SecondaryMouseLook : MonoBehaviour
 
         if (playerBody != null)
         {
-            int invert = playerBody.GetComponent<SecondaryRobotController>().invertForward;  // Get the invert setting from the robot controller
+            int invert = playerBody.GetComponent<SecondaryRobotController>().invertCamera ? -1 : 1 ;  // Get the invert setting from the robot controller
             distance = distance * invert;  // Apply inversion to the camera distance
         }
     }

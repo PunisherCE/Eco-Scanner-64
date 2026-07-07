@@ -12,7 +12,8 @@ public class SecondaryRobotController : MonoBehaviour
     public float gravity = -9.81f;
 
     [Header("Camera Control")]
-    public int invertForward = 1;   // 1 = normal, -1 = inverted
+    public bool invertCamera = false;
+    private int invertForward = 1;   // 1 = normal, -1 = inverted
 
     private CharacterController controller;
     private Animator animator;
@@ -28,6 +29,7 @@ public class SecondaryRobotController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        invertForward = invertCamera ? -1 : 1;
     }
 
     void Update()
@@ -37,7 +39,7 @@ public class SecondaryRobotController : MonoBehaviour
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
-        float x = moveInput.x;
+        float x = moveInput.x * invertForward;
         float z = moveInput.y * invertForward;
 
         // --- ROTATION LOGIC (A/D only) ---
