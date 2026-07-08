@@ -111,17 +111,6 @@ public class RobotController : MonoBehaviour
 
         characterController.Move(move * currentSpeed * Time.deltaTime);
 
-        // --- Animator Updates ---
-        if (isRunning)
-        {
-            animator.SetBool("isRun", true);
-            animator.SetBool("isWalk", false); // Turn off walk while running
-        }
-        else
-        {
-            animator.SetBool("isRun", false);
-            animator.SetBool("isWalk", isMoving); // Only walk if moving and NOT running
-        }
         animator.SetBool("isJump", !isGrounded);
 
         // --- Jumping ---
@@ -136,6 +125,18 @@ public class RobotController : MonoBehaviour
         {
             StartCoroutine(PerformAttack());
             attackPressed = false;
+        }
+
+        // --- Animator Updates ---
+        if (isRunning)
+        {
+            animator.SetBool("isRun", true);
+            animator.SetBool("isWalk", false); // Turn off walk while running
+        }
+        else
+        {
+            animator.SetBool("isRun", false);
+            animator.SetBool("isWalk", isMoving); // Only walk if moving and NOT running
         }
 
         // --- Apply Gravity ---
@@ -164,15 +165,7 @@ public class RobotController : MonoBehaviour
         // 4. Wait for the rest of the attack duration to end the "busy" state
         yield return new WaitForSeconds(attackDuration - fireDelay);
 
-        // 5. Note: No need to set isAttack to false; the Trigger resets itself.
         busy = false;
-
-        // Restore movement animation state
-        bool isMoving = moveInput.magnitude > 0.1f;
-        bool isRunning = isMoving && runPressed && moveInput.y > 0.1f;
-
-        animator.SetBool("isWalk", isMoving);
-        animator.SetBool("isRun", isRunning);
     }
 
     private void FireBall()
