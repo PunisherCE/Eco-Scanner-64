@@ -10,6 +10,16 @@ public class SceneTriggerLoader : MonoBehaviour
         // Check if the object entering the trigger is the player
         if (other.CompareTag("Player"))
         {
+            if (sceneToLoad != "SceneMain")
+            {
+                // Get the current player profile index
+                int currentProfile = StatsManager.LoadLastPlayer();
+
+                // Save a stat to mark that this scene has been entered.
+                // The stat name is the scene name, and the value is 100 as requested.
+                StatsManager.SaveStat(currentProfile, sceneToLoad, 100);
+            }
+
             // Load the specified scene
             SceneManager.LoadScene(sceneToLoad);
         }
