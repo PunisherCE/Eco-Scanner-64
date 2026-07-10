@@ -6576,6 +6576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTriggerLoader
   sceneToLoad: SceneMain
+  thisSceneName: Tetris
 --- !u!64 &1158695401
 MeshCollider:
   m_ObjectHideFlags: 0

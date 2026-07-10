@@ -6773,6 +6773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTriggerLoader
   sceneToLoad: SceneMain
+  thisSceneName: Platforms
 --- !u!1 &1868873852
 GameObject:
   m_ObjectHideFlags: 0

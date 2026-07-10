@@ -220,6 +220,8 @@ public class ZombieAI : MonoBehaviour
         }
 
         ZombieSpawner.totalZombiesSpawned--; // Decrement the total zombies spawned count
+        ZombieSpawner.TotalZombiesKilled++; // Increment the total zombies killed count
+        ZombieCount.UpdateUI(); // Update the UI to reflect the new kill count
 
         Destroy(gameObject, delayedTimeDead);
         yield return null; // Coroutine needs to yield something

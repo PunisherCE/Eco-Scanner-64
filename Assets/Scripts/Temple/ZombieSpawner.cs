@@ -1,9 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class ZombieSpawner : MonoBehaviour
 {
+    public static int TotalZombiesKilled = 0;
+    public int TotalZombiesToKill = 100; // Set this to the desired number of zombies to kill before stopping the spawner
+
     [Header("Zombie Prefab")]
     public GameObject zombiePrefab;
 
@@ -28,6 +32,17 @@ public class ZombieSpawner : MonoBehaviour
 
     void Update()
     {
+        if (TotalZombiesKilled > TotalZombiesToKill)
+        {
+            // Get the current player profile index
+            int currentProfile = StatsManager.LoadLastPlayer();
+
+            // Save a stat to mark that this scene has been entered.
+            // The stat name is the scene name, and the value is 100 as requested.
+            StatsManager.SaveStat(currentProfile, "Zombies", 100);
+            SceneManager.LoadScene("SceneMain");
+        }
+
         timer -= Time.deltaTime;
 
         if (totalZombiesSpawned >= maxZombies)

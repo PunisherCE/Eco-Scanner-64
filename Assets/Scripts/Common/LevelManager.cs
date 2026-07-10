@@ -6,6 +6,9 @@ public class LevelManager : MonoBehaviour
     [Tooltip("The GameObjects representing the portals or triggers for each level. The order must match levelStatNames.")]
     [SerializeField]
     private GameObject[] levelPortals = new GameObject[4];
+    [SerializeField] private GameObject creditsUI;
+
+    private int levelsCompleted = 0;
 
     // These are the names of the stats that represent level completion.
     // The order must correspond to the levelPortals array.
@@ -34,7 +37,32 @@ public class LevelManager : MonoBehaviour
             // If the level is completed, disable its corresponding portal GameObject.
             if (levelCompleted && i < levelPortals.Length && levelPortals[i] != null)
             {
+                levelsCompleted++;
                 levelPortals[i].SetActive(false);
+            }
+
+            if (levelsCompleted == 4)
+            {
+                // If all levels are completed, activate the credits UI.
+                if (creditsUI != null)
+                {
+                    creditsUI.SetActive(true);
+                    foreach (GameObject portal in levelPortals)
+                    {
+                        if (portal != null)
+                        {
+                            portal.SetActive(true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // If not all levels are completed, ensure the credits UI is inactive.
+                if (creditsUI != null)
+                {
+                    creditsUI.SetActive(false);
+                }
             }
         }
     }

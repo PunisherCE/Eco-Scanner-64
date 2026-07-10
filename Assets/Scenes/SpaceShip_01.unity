@@ -421,6 +421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTriggerLoader
   sceneToLoad: SceneMain
+  thisSceneName: Ship
 --- !u!65 &977374652
 BoxCollider:
   m_ObjectHideFlags: 0
