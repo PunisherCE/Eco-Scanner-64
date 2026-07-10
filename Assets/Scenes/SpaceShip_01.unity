@@ -420,7 +420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e87886b90db274a45a7773f0a9816643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTriggerLoader
-  sceneToLoad: Tetris
+  sceneToLoad: SceneMain
+  thisSceneName: Ship
 --- !u!65 &977374652
 BoxCollider:
   m_ObjectHideFlags: 0
