@@ -28,9 +28,14 @@ public class RobotController : MonoBehaviour
     public int maxEnergy = 100;
     public int currentEnergy = 100;
 
+    private bool isChargingAttack = false;
+    private float attackHoldTimer = 0f;
 
+    private GameObject zone;
+    private GameObject meteor;
 
     [Header("References")]
+    public AudioClip shootSound;
     public GameObject firePosition;
     public Light lightEmission;
     public GameObject fireBall;
@@ -104,9 +109,20 @@ public class RobotController : MonoBehaviour
         bool isRunning = isMoving && runPressed && zInput > 0.1f;
         float currentSpeed = isRunning ? runSpeed : walkSpeed;
 
-        if (!busy)
+        // if (!busy)
+        // {
+        //     move = transform.right * x + transform.forward * z;
+        // }
+
+        move = transform.right * x + transform.forward * z;
+
+        if (move.x > 0.1 || move.x < -0.1 || move.z > 0.1 || move.z < -0.1)
         {
-            move = transform.right * x + transform.forward * z;
+            busy = false;
+            GameObject.Destroy(zone);
+            Destroy(meteor);
+            zone = null;
+            meteor = null;
         }
 
         characterController.Move(move * currentSpeed * Time.deltaTime);
@@ -121,11 +137,11 @@ public class RobotController : MonoBehaviour
         }
 
         // --- Attacking ---
-        if (attackPressed && isGrounded && !busy)
-        {
-            StartCoroutine(PerformAttack());
-            attackPressed = false;
-        }
+        // if (attackPressed && !busy)
+        // {
+        //     StartCoroutine(PerformAttack());
+        //     attackPressed = false;
+        // }
 
         // --- Animator Updates ---
         if (isRunning)
@@ -144,70 +160,70 @@ public class RobotController : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
     }
 
-    IEnumerator PerformAttack()
-    {
-        busy = true;
+    // IEnumerator PerformAttack()
+    // {
+    //     busy = true;
 
-        // 1. Force movement animations to stop so they don't fight the attack animation
-        animator.SetBool("isWalk", false);
-        animator.SetBool("isRun", false);
+    //     // 1. Force movement animations to stop so they don't fight the attack animation
+    //     animator.SetBool("isWalk", false);
+    //     animator.SetBool("isRun", false);
 
-        // 2. Fire the Trigger
-        animator.SetTrigger("isAttack");
+    //     // 2. Fire the Trigger
+    //     animator.SetTrigger("isAttack");
 
-        // 3. Wait for the specified delay before spawning the projectile
-        yield return new WaitForSeconds(fireDelay);
-        FireBall();
+    //     // 3. Wait for the specified delay before spawning the projectile
+    //     yield return new WaitForSeconds(fireDelay);
+    //     FireBall();
 
-        GameObject particle = Instantiate(particleBall, firePosition.transform.position, Quaternion.identity);
-        Destroy(particle, 1f);
+    //     GameObject particle = Instantiate(particleBall, firePosition.transform.position, Quaternion.identity);
+    //     Destroy(particle, 1f);
 
-        // 4. Wait for the rest of the attack duration to end the "busy" state
-        yield return new WaitForSeconds(attackDuration - fireDelay);
+    //     // 4. Wait for the rest of the attack duration to end the "busy" state
+    //     yield return new WaitForSeconds(attackDuration - fireDelay);
 
-        busy = false;
-    }
+    //     busy = false;
+    // }
 
-    private void FireBall()
-    {
-        Vector3 targetPoint;
+    // private void FireBall()
+    // {
+    //     Vector3 targetPoint;
 
-        if (cameraTransform != null)
-        {
-            // Raycast from the center of the camera forward
-            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, fireBallRaycastDistance, aimLayerMask))
-            {
-                targetPoint = hit.point;
-            }
-            else
-            {
-                // If no object is hit, aim at a point in the distance
-                targetPoint = cameraTransform.position + cameraTransform.forward * fireBallRaycastDistance;
-            }
-        }
-        else
-        {
-            targetPoint = firePosition.transform.position + transform.forward * fireBallRaycastDistance;
-        }
+    //     if (cameraTransform != null)
+    //     {
+    //         // Raycast from the center of the camera forward
+    //         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+    //         if (Physics.Raycast(ray, out RaycastHit hit, fireBallRaycastDistance, aimLayerMask))
+    //         {
+    //             targetPoint = hit.point;
+    //         }
+    //         else
+    //         {
+    //             // If no object is hit, aim at a point in the distance
+    //             targetPoint = cameraTransform.position + cameraTransform.forward * fireBallRaycastDistance;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         targetPoint = firePosition.transform.position + transform.forward * fireBallRaycastDistance;
+    //     }
 
-        GameObject ball = Instantiate(fireBall, firePosition.transform.position, Quaternion.identity);
-        StartCoroutine(ShootLight());
+    //     GameObject ball = Instantiate(fireBall, firePosition.transform.position, Quaternion.identity);
+    //     StartCoroutine(ShootLight());
 
-        currentEnergy -= 1;
-        if (currentEnergy < 0) currentEnergy = 0;
-        float energyPercentage = (float)currentEnergy / (float)maxEnergy;
-        energyPercentage *= 100;
-        energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
+    //     currentEnergy -= 1;
+    //     if (currentEnergy < 0) currentEnergy = 0;
+    //     float energyPercentage = (float)currentEnergy / (float)maxEnergy;
+    //     energyPercentage *= 100;
+    //     energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
 
-        FireBall ballScript = ball.GetComponent<FireBall>();
-        if (ballScript != null)
-        {
-            ballScript.speed = ballSpeed;
-            ballScript.damage = ballDamage;
-            ballScript.SetTarget(targetPoint);
-        }
-    }
+    //     FireBall ballScript = ball.GetComponent<FireBall>();
+    //     if (ballScript != null)
+    //     {
+    //         ballScript.speed = ballSpeed;
+    //         ballScript.damage = ballDamage;
+    //         ballScript.SetTarget(targetPoint);
+    //     }
+    // }
 
     private IEnumerator ShootLight()
     {
@@ -218,6 +234,18 @@ public class RobotController : MonoBehaviour
 
     private IEnumerator PerformSecondaryAttack()
     {
+        if (zone != null)
+        {
+            Destroy(zone);
+            zone = null;
+        }
+
+        if (meteor != null)
+        {
+            Destroy(meteor);
+            meteor = null;
+        }
+
         Debug.Log("Secondary Attack");
         busy = true;
         animator.SetBool("isWalk", false);
@@ -245,10 +273,10 @@ public class RobotController : MonoBehaviour
                 Quaternion facePlayerRotation = Quaternion.LookRotation(-directionToPlayer);
                 // ------------------------------------------
 
-                GameObject zone = Instantiate(fireZone, fireZonePosition.transform.position, Quaternion.identity);
+                zone = Instantiate(fireZone, fireZonePosition.transform.position, Quaternion.identity);
 
                 // Use facePlayerRotation instead of Quaternion.identity
-                GameObject meteor = Instantiate(meteorFire, spawnPosition, facePlayerRotation);
+                meteor = Instantiate(meteorFire, spawnPosition, facePlayerRotation);
 
                 currentEnergy -= 15;
                 if (currentEnergy < 0) currentEnergy = 0;
@@ -336,7 +364,127 @@ public class RobotController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started && currentEnergy > 0) attackPressed = true;
+        // When the button is first pressed down
+        if (context.started && !busy && currentEnergy > 0)
+        {
+            isChargingAttack = true;
+            attackHoldTimer = 0f;
+            StartCoroutine(ChargeAndPerformAttack());
+        }
+
+        // When the player lets go of the button early (before 3 seconds)
+        if (context.canceled && isChargingAttack)
+        {
+            isChargingAttack = false; // This signals the charging coroutine to release early
+        }
+    }
+
+    IEnumerator ChargeAndPerformAttack()
+    {
+        busy = true;
+        animator.SetBool("isWalk", false);
+        animator.SetBool("isRun", false);
+
+        GameObject activeBall = null;
+        float currentChargeTime = 0f;
+        int calculatedDamage = 1;
+        float calculatedScale = 0.15f;
+
+        while (isChargingAttack && currentChargeTime < 3.0f)
+        {
+            currentChargeTime += Time.deltaTime;
+
+            // Instantiate the fireball on the first frame of charging so we can scale it in real-time
+            if (activeBall == null)
+            {
+                activeBall = Instantiate(fireBall, firePosition.transform.position, firePosition.transform.rotation);
+                activeBall.transform.SetParent(firePosition.transform); // Attach to hand while charging
+
+                // Disable movement script on the fireball while it's charging in hand
+                FireBall ballScript = activeBall.GetComponent<FireBall>();
+                if (ballScript != null) ballScript.enabled = false;
+            }
+
+            // Determine stats and scale based on time tiers (1s = 1 dmg / 1x, 2s = 2 dmg / 1.5x, 3s = 3 dmg / 2x)
+            if (currentChargeTime >= 2.0f)
+            {
+                calculatedDamage = 3;
+                calculatedScale = 0.3f;
+            }
+            else if (currentChargeTime >= 1.0f)
+            {
+                calculatedDamage = 2;
+                calculatedScale = 0.225f;
+            }
+            else
+            {
+                calculatedDamage = 1;
+                calculatedScale = 0.15f;
+            }
+
+            if (activeBall != null)
+            {
+                activeBall.transform.localScale = Vector3.one * calculatedScale;
+            }
+
+            // If they reach exactly 3 seconds, force-stop charging to trigger automatic release
+            if (currentChargeTime >= 3.0f)
+            {
+                isChargingAttack = false;
+            }
+
+            yield return null;
+        }
+
+        // --- Fire the Projectile ---
+        if (activeBall != null)
+        {
+            // Unparent from hand so it can travel into the world
+            activeBall.transform.SetParent(null);
+            animator.SetTrigger("isAttack");
+            AudioSource.PlayClipAtPoint(shootSound, firePosition.transform.position); // Play the shooting sound
+
+            Vector3 targetPoint;
+            if (cameraTransform != null)
+            {
+                Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+                if (Physics.Raycast(ray, out RaycastHit hit, fireBallRaycastDistance, aimLayerMask))
+                {
+                    targetPoint = hit.point;
+                }
+                else
+                {
+                    targetPoint = cameraTransform.position + cameraTransform.forward * fireBallRaycastDistance;
+                }
+            }
+            else
+            {
+                targetPoint = firePosition.transform.position + transform.forward * fireBallRaycastDistance;
+            }
+
+            // Re-enable and configure the fireball script
+            FireBall finalBallScript = activeBall.GetComponent<FireBall>();
+            if (finalBallScript != null)
+            {
+                finalBallScript.enabled = true;
+                finalBallScript.speed = ballSpeed;
+                finalBallScript.damage = calculatedDamage; // Assigns scaled damage (1, 2, or 3)
+                finalBallScript.SetTarget(targetPoint);
+            }
+
+            StartCoroutine(ShootLight());
+
+            // Energy consumption adjustment (optional: scale energy cost with charge if desired)
+            currentEnergy -= 1 * calculatedDamage; // Consumes more energy for higher damage
+            if (currentEnergy < 0) currentEnergy = 0;
+            UpdateEnergyUI();
+
+            GameObject particle = Instantiate(particleBall, firePosition.transform.position, Quaternion.identity);
+            Destroy(particle, 1f);
+        }
+
+        yield return new WaitForSeconds(attackDuration);
+        busy = false;
     }
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
