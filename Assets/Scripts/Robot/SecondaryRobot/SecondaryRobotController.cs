@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -24,6 +25,7 @@ public class SecondaryRobotController : MonoBehaviour
     private Vector2 moveInput;
     private bool jumpPressed;
     private bool runPressed;
+    [System.NonSerialized] public bool isDead;
 
     void Start()
     {
@@ -34,6 +36,14 @@ public class SecondaryRobotController : MonoBehaviour
 
     void Update()
     {
+        if (isDead)
+        {
+            // Disable movement and animations when dead
+            animator.SetBool("isWalk", false);
+            animator.SetBool("isRun", false);
+            animator.SetBool("isJump", false);
+            return;
+        }
         isGrounded = controller.isGrounded;
 
         if (isGrounded && velocity.y < 0)

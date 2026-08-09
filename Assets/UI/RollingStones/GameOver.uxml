@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="MainContainer" style="flex-grow: 1; width: 100%; height: 100%; align-items: center; justify-content: center; align-self: center; align-content: center; background-color: rgba(77, 17, 17, 0);">
+        <ui:Label text="Game Over" name="GameOver" style="font-size: 150px; -unity-font-style: bold-and-italic; -unity-text-generator: advanced; -unity-text-auto-size: best-fit 100px 175px; color: rgb(255, 255, 255); -unity-text-outline-width: 10px; -unity-text-outline-color: rgb(0, 0, 0);"/>
+    </ui:VisualElement>
+</ui:UXML>
