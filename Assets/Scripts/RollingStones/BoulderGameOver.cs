@@ -31,6 +31,7 @@ public class BoulderGameOver : MonoBehaviour
     IEnumerator FadeInBackground(float duration)
     {
         robot.isDead = true; // Set the robot's isDead flag to true
+        robot.PlayDeathAnimation(); // Play the death animation
         Color start = mainContainer.style.backgroundColor.value;
         Color end = start;
         end.a = 1f; // full alpha

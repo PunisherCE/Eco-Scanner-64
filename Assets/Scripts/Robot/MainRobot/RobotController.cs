@@ -27,6 +27,7 @@ public class RobotController : MonoBehaviour
     public int currentHitPoints = 10;
     public int maxEnergy = 100;
     public int currentEnergy = 100;
+    public float energyRegenRate = 1.2f; // Energy regenerated per second
 
     private bool isChargingAttack = false;
     private float attackHoldTimer = 0f;
@@ -54,6 +55,7 @@ public class RobotController : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private bool busy = false;
+    private bool canMove = true;
 
     // --- Input System Variables ---
     private Vector2 moveInput;
@@ -78,6 +80,21 @@ public class RobotController : MonoBehaviour
 
     void Update()
     {
+        // Regenerate energy
+        if (currentEnergy < maxEnergy)
+        {
+            energyRegenRate -= Time.deltaTime;
+            if (energyRegenRate <= 0f)
+            {
+                currentEnergy += 1; // Regenerate 1 energy point
+                energyRegenRate = 1.2f; // Reset the timer for the next point
+                UpdateEnergyUI();
+            }
+            if (currentEnergy > maxEnergy)
+                currentEnergy = maxEnergy;
+        }
+
+        if (!canMove) return; // Prevent movement if canMove is false
         isGrounded = characterController.isGrounded;
 
         if (isGrounded && velocity.y < 0)
@@ -160,71 +177,6 @@ public class RobotController : MonoBehaviour
         characterController.Move(velocity * Time.deltaTime);
     }
 
-    // IEnumerator PerformAttack()
-    // {
-    //     busy = true;
-
-    //     // 1. Force movement animations to stop so they don't fight the attack animation
-    //     animator.SetBool("isWalk", false);
-    //     animator.SetBool("isRun", false);
-
-    //     // 2. Fire the Trigger
-    //     animator.SetTrigger("isAttack");
-
-    //     // 3. Wait for the specified delay before spawning the projectile
-    //     yield return new WaitForSeconds(fireDelay);
-    //     FireBall();
-
-    //     GameObject particle = Instantiate(particleBall, firePosition.transform.position, Quaternion.identity);
-    //     Destroy(particle, 1f);
-
-    //     // 4. Wait for the rest of the attack duration to end the "busy" state
-    //     yield return new WaitForSeconds(attackDuration - fireDelay);
-
-    //     busy = false;
-    // }
-
-    // private void FireBall()
-    // {
-    //     Vector3 targetPoint;
-
-    //     if (cameraTransform != null)
-    //     {
-    //         // Raycast from the center of the camera forward
-    //         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-    //         if (Physics.Raycast(ray, out RaycastHit hit, fireBallRaycastDistance, aimLayerMask))
-    //         {
-    //             targetPoint = hit.point;
-    //         }
-    //         else
-    //         {
-    //             // If no object is hit, aim at a point in the distance
-    //             targetPoint = cameraTransform.position + cameraTransform.forward * fireBallRaycastDistance;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         targetPoint = firePosition.transform.position + transform.forward * fireBallRaycastDistance;
-    //     }
-
-    //     GameObject ball = Instantiate(fireBall, firePosition.transform.position, Quaternion.identity);
-    //     StartCoroutine(ShootLight());
-
-    //     currentEnergy -= 1;
-    //     if (currentEnergy < 0) currentEnergy = 0;
-    //     float energyPercentage = (float)currentEnergy / (float)maxEnergy;
-    //     energyPercentage *= 100;
-    //     energyBar.style.width = new Length(energyPercentage, LengthUnit.Percent);
-
-    //     FireBall ballScript = ball.GetComponent<FireBall>();
-    //     if (ballScript != null)
-    //     {
-    //         ballScript.speed = ballSpeed;
-    //         ballScript.damage = ballDamage;
-    //         ballScript.SetTarget(targetPoint);
-    //     }
-    // }
-
     private IEnumerator ShootLight()
     {
         lightEmission.enabled = true;
@@ -234,6 +186,7 @@ public class RobotController : MonoBehaviour
 
     private IEnumerator PerformSecondaryAttack()
     {
+        StartCoroutine(PreventMovementForAWhile()); // Prevent movement for 1 second
         if (zone != null)
         {
             Destroy(zone);
@@ -298,6 +251,12 @@ public class RobotController : MonoBehaviour
         }
     }
 
+    private IEnumerator PreventMovementForAWhile()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(2f);
+        canMove = true;
+    }
     public void TakeDamage(int damage)
     {
         animator.SetBool("isDamage", true);

@@ -272,8 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3a440aec87bc84f8c7aa6e22ac4eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boulder
-  moveSpeed: 5
+  baseSpeed: 5
+  maxSpeed: 7.5
   rotationSpeed: 200
+  boulderDistance: 25
   player: {fileID: 1850421531}
   boulderGameOver: {fileID: 1174454561}
 --- !u!1 &48379323
@@ -453,9 +455,13 @@ PrefabInstance:
       propertyPath: invertForward
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 4483154473261429558, guid: 00c4e30482d2de345afd85a0b760edce, type: 3}
+      propertyPath: animationSpeed
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 6544108246158094250, guid: 00c4e30482d2de345afd85a0b760edce, type: 3}
       propertyPath: distance
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8437244667940019680, guid: 00c4e30482d2de345afd85a0b760edce, type: 3}
       propertyPath: m_Name

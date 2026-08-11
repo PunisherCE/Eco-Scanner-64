@@ -1,12 +1,21 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Boulder : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    [NonSerialized] public float moveSpeed;
+    public float baseSpeed = 5f;
+    public float maxSpeed = 7.5f;
     public float rotationSpeed = 200f;
+    public float boulderDistance = 32f;
     [SerializeField] private Transform player;
     [SerializeField] private GameObject boulderGameOver;
+
+    void Start()
+    {
+        moveSpeed = baseSpeed;
+    }
 
     void Update()
     {
@@ -22,10 +31,10 @@ public class Boulder : MonoBehaviour
             boulderGameOver.SetActive(true);
         }
 
-        if (player != null && transform.position.z < player.position.z - 32f)
+        if (player != null && transform.position.z < player.position.z - boulderDistance)
         {
-            moveSpeed = 7.5f;
-        } else moveSpeed = 5f;
+            moveSpeed = maxSpeed;
+        } else moveSpeed = baseSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
