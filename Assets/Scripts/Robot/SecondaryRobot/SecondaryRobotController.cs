@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -10,6 +11,7 @@ public class SecondaryRobotController : MonoBehaviour
     public float runSpeed = 6f;
     public float jumpHeight = 2f;
     public float gravity = -9.81f;
+    public float animationSpeed = 12f;
 
     [Header("Camera Control")]
     public bool invertCamera = false;
@@ -24,6 +26,7 @@ public class SecondaryRobotController : MonoBehaviour
     private Vector2 moveInput;
     private bool jumpPressed;
     private bool runPressed;
+    [System.NonSerialized] public bool isDead;
 
     void Start()
     {
@@ -34,6 +37,14 @@ public class SecondaryRobotController : MonoBehaviour
 
     void Update()
     {
+        if (isDead)
+        {
+            // Disable movement and animations when dead
+            animator.SetBool("isWalk", false);
+            animator.SetBool("isRun", false);
+            animator.SetBool("isJump", false);
+            return;
+        }
         isGrounded = controller.isGrounded;
 
         if (isGrounded && velocity.y < 0)
@@ -101,4 +112,11 @@ public class SecondaryRobotController : MonoBehaviour
         if (context.canceled) runPressed = false;
     }
     #endregion
+
+    
+    public void PlayDeathAnimation()
+    {
+        animator.SetTrigger("isDead");
+        animator.speed = animationSpeed;
+    }
 }
