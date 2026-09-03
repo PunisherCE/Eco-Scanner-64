@@ -153,7 +153,7 @@ public class ZombieAI : MonoBehaviour
 
         if (currentHitPoints <= 0)
         {
-            StartCoroutine(DieRoutine());
+            if (!isDead) StartCoroutine(DieRoutine());
         }
         else
         {

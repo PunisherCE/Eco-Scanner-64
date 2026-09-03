@@ -929,7 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e87886b90db274a45a7773f0a9816643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTriggerLoader
-  sceneToLoad: EntrarMundo1
+  sceneToLoad: Rolling_Stones
   thisSceneName: SceneMain
 --- !u!135 &282703505
 SphereCollider:
@@ -8945,7 +8945,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1510551965464290006, guid: d7e7ea9a425668248a37909eee4ec43c, type: 3}
       propertyPath: m_text
-      value: Platforms
+      value: Rolling
       objectReference: {fileID: 0}
     - target: {fileID: 1510551965464290006, guid: d7e7ea9a425668248a37909eee4ec43c, type: 3}
       propertyPath: m_fontSize

@@ -51,6 +51,7 @@ public class RobotController : MonoBehaviour
 
     private VisualElement healthBar;
     private VisualElement energyBar;
+    private Label loadGunLabel;
 
     private Vector3 velocity;
     private bool isGrounded;
@@ -74,6 +75,7 @@ public class RobotController : MonoBehaviour
         VisualElement root = document.rootVisualElement;
         healthBar = root.Q<VisualElement>("HealthBar");
         energyBar = root.Q<VisualElement>("EnergyBar");
+        loadGunLabel = root.Q<Label>("LoadGunLabel");
         lightEmission.enabled = false;
 
     }
@@ -334,6 +336,7 @@ public class RobotController : MonoBehaviour
         // When the player lets go of the button early (before 3 seconds)
         if (context.canceled && isChargingAttack)
         {
+            loadGunLabel.text = "";
             isChargingAttack = false; // This signals the charging coroutine to release early
         }
     }
@@ -367,16 +370,19 @@ public class RobotController : MonoBehaviour
             // Determine stats and scale based on time tiers (1s = 1 dmg / 1x, 2s = 2 dmg / 1.5x, 3s = 3 dmg / 2x)
             if (currentChargeTime >= 2.0f)
             {
+                loadGunLabel.text = "3";
                 calculatedDamage = 3;
                 calculatedScale = 0.3f;
             }
             else if (currentChargeTime >= 1.0f)
             {
+                loadGunLabel.text = "2";
                 calculatedDamage = 2;
                 calculatedScale = 0.225f;
             }
             else
             {
+                loadGunLabel.text = "1";
                 calculatedDamage = 1;
                 calculatedScale = 0.15f;
             }
@@ -389,6 +395,7 @@ public class RobotController : MonoBehaviour
             // If they reach exactly 3 seconds, force-stop charging to trigger automatic release
             if (currentChargeTime >= 3.0f)
             {
+                loadGunLabel.text = "";
                 isChargingAttack = false;
             }
 
