@@ -130,7 +130,7 @@ public class MainMenu : MonoBehaviour
         nameLabel.style.color = Color.white;
         nameLabel.style.fontSize = 20;
 
-        Label valueLabel = new Label(statValue.ToString());
+        Label valueLabel = new Label(statValue.ToString() + "%");
         valueLabel.style.color = Color.white;
         valueLabel.style.fontSize = 20;
 

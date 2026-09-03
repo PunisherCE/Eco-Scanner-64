@@ -2,10 +2,19 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    public GameObject parent;
     public bool isHealth = true;   // If true → HealthUp, else → ManaUp
+    public bool isPermanent = false; // If true → Permanent, else → Temporary
     public int healthAmount = 3;   // Amount to heal
     public int manaAmount = 10;    // Amount to restore
+
+
+    // The Start method is used for initialization
+    private void Start()
+    {
+        if (!isPermanent)
+            Destroy(gameObject, 12f); // Auto-destroy this pickup after 12 seconds
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,7 +31,7 @@ public class PowerUp : MonoBehaviour
             ManaUp(robot);
 
         // Destroy the power-up after use
-        Destroy(parent);
+        Destroy(gameObject);
     }
 
     private void HealthUp(RobotController robot)
@@ -46,4 +55,3 @@ public class PowerUp : MonoBehaviour
     }
 
 }
-

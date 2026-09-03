@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
       propertyPath: m_Name
-      value: Zombie_T-Pose Variant
+      value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
       propertyPath: m_TagString
@@ -69,6 +69,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6200398107970411610}
+    - targetCorrespondingSourceObject: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3944317239150220642}
+    - targetCorrespondingSourceObject: {fileID: 3265037317432396975, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3707522579876282409}
   m_SourcePrefab: {fileID: 100100000, guid: 47fdb639051a1404fbe16b49cfc001aa, type: 3}
 --- !u!1 &2060524433136930114 stripped
 GameObject:
@@ -144,3 +150,36 @@ MonoBehaviour:
   maxHitPoints: 3
   currentHitPoints: 3
   damage: 1
+  provokedTimerMax: 6.5
+  pickupItems:
+  - {fileID: 6415613155877582370, guid: 552423c417fe2fa4eb35aef604561aa3, type: 3}
+  - {fileID: 8672040320315658958, guid: bf8e69fe2b7dbe54c8c50014a39ceac8, type: 3}
+--- !u!114 &3944317239150220642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060524433136930114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79cad9aad1a01d043b431e04a78a86b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TempleWander
+  wanderSpeed: 3.5
+  minWait: 2
+  maxWait: 5
+--- !u!114 &3707522579876282409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060524433136930114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f29663eb748f444aacfb9b7f7fa618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieEntranceCorrection
+  moveSpeed: 3
+  zombieAI: {fileID: 0}
