@@ -50,6 +50,13 @@ public class PrefabSpawner : MonoBehaviour
         // Spawn the prefab at the random position with a random rotation
         GameObject spawnedPrefab = Instantiate(prefabToSpawn, randomPosition, randomRotation);
 
+        // Apply a random color to the spawned instance
+        Renderer rend = spawnedPrefab.GetComponentInChildren<Renderer>();
+        if (rend != null)
+        {
+            rend.material.color = Random.ColorHSV();
+        }
+
         // Ensure the prefab has a Rigidbody component
         Rigidbody rb = spawnedPrefab.GetComponent<Rigidbody>();
         if (rb == null)
@@ -60,6 +67,4 @@ public class PrefabSpawner : MonoBehaviour
         // Make sure Rigidbody is not kinematic
         rb.isKinematic = false;
     }
-
-
 }

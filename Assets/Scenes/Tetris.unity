@@ -3630,7 +3630,7 @@ PrefabInstance:
     - target: {fileID: 7787714582064204012, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
       propertyPath: tutorialText
       value: Salta sobre las piezas que caen para mantenerte alejado de la lava que
-        sube cada segund.
+        sube cada segundo.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

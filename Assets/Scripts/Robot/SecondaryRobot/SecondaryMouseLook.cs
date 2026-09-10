@@ -3,29 +3,44 @@ using UnityEngine;
 public class SecondaryMouseLook : MonoBehaviour
 {
     [Header("Settings")]
-    public float distance = 6f;          // How far behind the player the camera stays
+    public float distance = 6f;          // How far behind the player the camera stays along Z
     public float height = 2f;            // Height offset
-    public float smoothTime = 0.1f;      // Time it takes for the camera to reach the target. Lower is faster.
-    public Vector3 lookAtOffset = new Vector3(0, 1.5f, 0); // The point above the player's pivot to look at.
+    public float smoothTime = 0.1f;      // Smooth damp time
+    public Vector3 lookAtOffset = new Vector3(0, 1.5f, 0); // Offset to align fixed look angle
 
     [Header("References")]
     public Transform playerBody;         // The robot
     public Transform cameraTransform;    // The main camera
 
-    // Private variable to store the camera's velocity for SmoothDamp
     private Vector3 _cameraVelocity = Vector3.zero;
+    private Quaternion _fixedRotation;
+    private float _fixedX;               // The locked X axis position
+    private float _fixedY;               // The locked Y axis position
 
     void Start()
     {
-        // Cursor.lockState = CursorLockMode.Locked;
-
         if (cameraTransform == null)
             cameraTransform = GetComponentInChildren<Camera>().transform;
 
         if (playerBody != null)
         {
-            int invert = playerBody.GetComponent<SecondaryRobotController>().invertCamera ? -1 : 1 ;  // Get the invert setting from the robot controller
-            distance = distance * invert;  // Apply inversion to the camera distance
+            SecondaryRobotController robotController = playerBody.GetComponent<SecondaryRobotController>();
+            if (robotController != null)
+            {
+                int invert = robotController.invertCamera ? -1 : 1;
+                distance *= invert;
+            }
+
+            // Lock the X axis coordinate to the player's starting X position
+            _fixedX = playerBody.position.x;
+            _fixedY = playerBody.position.y + height;
+
+            // Calculate initial rail position and lock in camera rotation once at start
+            Vector3 targetLookAt = playerBody.position + lookAtOffset;
+            Vector3 initialPos = new Vector3(_fixedX, playerBody.position.y + height, playerBody.position.z - distance);
+            
+            _fixedRotation = Quaternion.LookRotation(targetLookAt - initialPos);
+            cameraTransform.rotation = _fixedRotation;
         }
     }
 
@@ -33,18 +48,17 @@ public class SecondaryMouseLook : MonoBehaviour
     {
         if (playerBody == null) return;
 
-        // 1. Calculate the desired camera position using a fixed world direction.
-        // This keeps the camera from rotating with the player.
-        Vector3 desiredPos =
-            playerBody.position
-            - Vector3.forward * distance // Use a fixed world direction instead of player's forward
-            + Vector3.up * height;
+        // Smooth only along Z; X and Y stay fixed after initialization.
+        float desiredZ = playerBody.position.z - distance;
+        float smoothedZ = Mathf.SmoothDamp(
+            cameraTransform.position.z,
+            desiredZ,
+            ref _cameraVelocity.z,
+            smoothTime
+        );
+        cameraTransform.position = new Vector3(_fixedX, _fixedY, smoothedZ);
 
-        // 2. Smoothly move the camera towards the desired position.
-        // Vector3.SmoothDamp is ideal for this as it provides a much smoother follow and avoids jitter.
-        cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, desiredPos, ref _cameraVelocity, smoothTime);
-
-        // 3. Always look at the player's look-at target.
-        cameraTransform.LookAt(playerBody.position + lookAtOffset);
+        // 3. Keep camera orientation completely fixed in world space
+        cameraTransform.rotation = _fixedRotation;
     }
 }

@@ -13,7 +13,7 @@ public class SecondaryRobotController : MonoBehaviour
     public float gravity = -9.81f;
     public float animationSpeed = 12f;
 
-    [Header("Camera Control")]
+    [Header("Invert Control")]
     public bool invertCamera = false;
     private int invertForward = 1;   // 1 = normal, -1 = inverted
 
@@ -53,30 +53,25 @@ public class SecondaryRobotController : MonoBehaviour
         float x = moveInput.x * invertForward;
         float z = moveInput.y * invertForward;
 
-        // --- ROTATION LOGIC (A/D only) ---
-        // Only rotate the character left and right based on horizontal input.
-        if (Mathf.Abs(x) > 0.1f)
+        // Build raw 8-way directional input vector (W, A, S, D, W+A, W+D, S+A, S+D)
+        Vector3 moveDirection = new Vector3(x, 0f, z).normalized;
+        bool isMoving = moveDirection.magnitude > 0.1f;
+
+        if (isMoving)
         {
-            transform.Rotate(0f, x * 120f * Time.deltaTime, 0f);
+            // Instantly snap character mesh to face movement direction (diagonals included)
+            transform.rotation = Quaternion.LookRotation(moveDirection);
         }
-        
-        // Set WalkSpeedMultiplier for forward/backward animation blending
-        if (z < -0.1f)
-            animator.SetFloat("WalkSpeedMultiplier", -1f);
-        else
-            animator.SetFloat("WalkSpeedMultiplier", 1f);
 
-        bool isMoving = moveInput.magnitude > 0.1f;
-        bool isRunning = isMoving && runPressed && z > 0.1f;
-
+        bool isRunning = isMoving && runPressed;
         float speed = isRunning ? runSpeed : walkSpeed;
 
         // --- MOVEMENT LOGIC ---
-        Vector3 move = transform.forward * z * speed; // Move forward/backward based on vertical input
-        controller.Move(move * Time.deltaTime);
+        // Move directly in world space according to input vector
+        controller.Move(moveDirection * speed * Time.deltaTime);
 
         // --- ANIMATION STATE LOGIC ---
-        // The Animator will transition to Idle by default when both isWalk and isRun are false.
+        animator.SetFloat("WalkSpeedMultiplier", 1f);
         animator.SetBool("isRun", isRunning);
         animator.SetBool("isWalk", isMoving && !isRunning);
 
@@ -113,7 +108,6 @@ public class SecondaryRobotController : MonoBehaviour
     }
     #endregion
 
-    
     public void PlayDeathAnimation()
     {
         animator.SetTrigger("isDead");
