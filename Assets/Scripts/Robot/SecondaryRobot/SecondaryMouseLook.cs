@@ -17,7 +17,7 @@ public class SecondaryMouseLook : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
 
         if (cameraTransform == null)
             cameraTransform = GetComponentInChildren<Camera>().transform;

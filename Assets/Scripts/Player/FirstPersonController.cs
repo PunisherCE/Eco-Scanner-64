@@ -46,7 +46,7 @@ public class FirstPersonController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
 
         // Lock the cursor to the center of the screen and hide it for a better FPS experience
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
