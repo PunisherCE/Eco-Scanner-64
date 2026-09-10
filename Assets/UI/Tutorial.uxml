@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.78);">
+        <ui:Label text="" name="Info" style="width: 100%; height: 85%; -unity-text-align: middle-center; font-size: 80px; -unity-font-style: bold-and-italic; color: rgb(255, 255, 255); white-space: normal; padding-right: 10%; padding-left: 10%;"/>
+        <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center; align-self: center; align-content: center; width: 100%; height: 15%;">
+            <ui:Button text="Start" name="Start" style="width: 12.5%; height: 50%; border-top-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); font-size: 50px; -unity-font-style: bold; -unity-text-generator: advanced; -unity-text-auto-size: best-fit 10px 70px; background-color: rgb(255, 255, 255); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

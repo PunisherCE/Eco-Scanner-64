@@ -3571,6 +3571,72 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1001 &759043275
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1907728992379646342, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_Name
+      value: Tutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.77254
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.79801
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.03164
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360678821337404042, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7787714582064204012, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: pause
+      value: 
+      objectReference: {fileID: 2100415192}
+    - target: {fileID: 7787714582064204012, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
+      propertyPath: tutorialText
+      value: Salta sobre las piezas que caen para mantenerte alejado de la lava que
+        sube cada segundo.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1657dac24cc460542b9dd4071a1c19da, type: 3}
 --- !u!43 &1058670835
 Mesh:
   m_ObjectHideFlags: 0
@@ -7354,6 +7420,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+--- !u!1 &2100415192 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6244784139183147189, guid: 884b4b7108958e6469076f57bc8a8d83, type: 3}
+  m_PrefabInstance: {fileID: 2100415191}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -7365,3 +7436,4 @@ SceneRoots:
   - {fileID: 328772484}
   - {fileID: 1158695399}
   - {fileID: 2100415191}
+  - {fileID: 759043275}
