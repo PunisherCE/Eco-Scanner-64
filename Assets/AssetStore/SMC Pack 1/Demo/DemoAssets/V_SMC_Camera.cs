@@ -18,9 +18,6 @@ namespace Visyde{
 
 		// Use this for initialization
 		void Start () {
-			// Lock and hide the cursor:
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
 		}
 
 		// Update is called once per frame
