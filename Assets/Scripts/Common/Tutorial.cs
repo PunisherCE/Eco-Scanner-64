@@ -29,7 +29,6 @@ public class Tutorial : MonoBehaviour
         {
             Time.timeScale = 1f;
             pause.SetActive(true);
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             this.gameObject.SetActive(false);
         });
         

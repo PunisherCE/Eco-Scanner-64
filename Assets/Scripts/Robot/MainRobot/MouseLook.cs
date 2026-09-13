@@ -18,8 +18,6 @@ public class MouseLook : MonoBehaviour
 
     void Start()
     {
-        // Cursor.lockState = CursorLockMode.Locked;
-        
         // If you didn't assign it, try to find it in children
         if (cameraTransform == null)
             cameraTransform = GetComponentInChildren<Camera>().transform;
