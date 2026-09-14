@@ -6772,7 +6772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e87886b90db274a45a7773f0a9816643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTriggerLoader
-  sceneToLoad: SpaceShip_01
+  sceneToLoad: SceneMain
+  thisSceneName: Platforms
 --- !u!1 &1868873852
 GameObject:
   m_ObjectHideFlags: 0

@@ -164,6 +164,14 @@ public class ProfileMenu : MonoBehaviour
 
         if (ProfileExists(index))
         {
+            // Check for double-click
+            if (evt.clickCount == 2)
+            {
+                LoadProfile(index);
+                MainMenuUI.SetActive(true);
+                this.gameObject.SetActive(false);
+                return;
+            }
             LoadProfile(index);
         }
         else

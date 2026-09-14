@@ -33,7 +33,7 @@ public class PauseMenu : MonoBehaviour
         btnResume.RegisterCallback<ClickEvent>(ev => ResumeGame());
         btnExit.RegisterCallback<ClickEvent>(ev =>
         {
-            ResumeGame(); // <- vuelve a Player y desbloquea cursor
+            ResumeGame(); // <- vuelve a Player
             SceneManager.LoadScene("SceneMain");
         });
 
@@ -58,10 +58,6 @@ public class PauseMenu : MonoBehaviour
         mainContainer.style.display = DisplayStyle.Flex;
 
         playerInput.SwitchCurrentActionMap("UI");
-
-        // Unlock and show the cursor for UI interaction
-        UnityEngine.Cursor.lockState = CursorLockMode.None;
-        UnityEngine.Cursor.visible = true;
     }
 
     void ResumeGame()
@@ -71,10 +67,6 @@ public class PauseMenu : MonoBehaviour
         mainContainer.style.display = DisplayStyle.None;
 
         playerInput.SwitchCurrentActionMap("Player");
-
-        // Lock and hide the cursor for gameplay
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        UnityEngine.Cursor.visible = false;
     }
 
 

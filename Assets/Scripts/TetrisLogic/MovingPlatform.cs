@@ -6,7 +6,7 @@ public class MovingPlatform : MonoBehaviour
     public GameObject targetObject;
 
     private Vector3 targetPosition;
-    private float duration = 260f; // 5.5 minutes in seconds
+    public float duration = 400f; // 5.5 minutes in seconds
     private Vector3 startPosition;
     private float elapsedTime = 0f;
 

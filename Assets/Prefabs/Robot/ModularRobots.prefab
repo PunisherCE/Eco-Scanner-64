@@ -575,6 +575,7 @@ MonoBehaviour:
   currentHitPoints: 10
   maxEnergy: 100
   currentEnergy: 100
+  shootSound: {fileID: 8300000, guid: 96dced61be63b514597d2ed400f890bc, type: 3}
   firePosition: {fileID: 3794464737161460701}
   lightEmission: {fileID: 4543374372500277645}
   fireBall: {fileID: 2680830935764052329, guid: d05fab8af9b010c4c83b4dbfd9f04242, type: 3}
